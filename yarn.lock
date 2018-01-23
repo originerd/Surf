@@ -10,6 +10,26 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
+"@types/jest@^22.0.1":
+  version "22.0.1"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.0.1.tgz#6370a6d60cce3845e4cd5d00bf65f654264685bc"
+
+"@types/react-native@^0.52.2":
+  version "0.52.2"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.2.tgz#1d3fe8ec2d4ad2c256585a1d70e9f2b320c707b3"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-test-renderer@^16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-16.0.0.tgz#905a12076d7315eb4a36c4f0e5e760c7b3115420"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react@*", "@types/react@^16.0.34":
+  version "16.0.34"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.34.tgz#7a8f795afd8a404a9c4af9539b24c75d3996914e"
+
 abab@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
