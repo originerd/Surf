@@ -1,4 +1,4 @@
-package com.surf;
+package com.originerd.surf;
 
 import android.app.Application;
 
