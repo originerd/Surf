@@ -1,4 +1,5 @@
 export default {
+  /* main colors */
   lighterBlue: '#2C86D0',
   lightBlue: '#0978D5',
   blue: '#0459A0',
@@ -14,4 +15,12 @@ export default {
   yellow: '#F9BB00',
   darkYellow: '#C89600',
   darkerYellow: '#997300',
+
+  /* emotion colors */
+  angry: '#DF0000',
+  excited: '#DF9300',
+  happy: '#DFDF00',
+  sad: '#063195',
+  scared: '#630895',
+  tender: '#00B200',
 }
