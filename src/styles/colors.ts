@@ -23,4 +23,9 @@ export default {
   sad: '#063195',
   scared: '#630895',
   tender: '#00B200',
+
+  /* sns colors */
+  google: '#d34836',
+  facebook: '#3b5998',
+  twitter: '#00aced',
 }
