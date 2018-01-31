@@ -39,10 +39,10 @@ const Session = () => (
     <View>
       <Text style={styles.title}>
         감정을 나눠요
-          </Text>
+      </Text>
       <Text style={styles.subTitle}>
         당신의 이야기가 듣고 싶어요!
-          </Text>
+      </Text>
     </View>
     <EmotionColorsLine />
     <View>
