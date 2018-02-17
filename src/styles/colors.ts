@@ -17,12 +17,12 @@ export default {
   darkerYellow: '#997300',
 
   /* emotion colors */
-  angry: '#DF0000',
-  excited: '#DF9300',
-  happy: '#DFDF00',
-  sad: '#063195',
-  scared: '#630895',
-  tender: '#00B200',
+  angry: '#EE5F61',
+  excited: '#F5A331',
+  happy: '#FBCF43',
+  sad: '#4CC6FB',
+  scared: '#C897EC',
+  tender: '#82D8B7',
 
   /* sns colors */
   google: '#d34836',
