@@ -60,3 +60,7 @@ lib/
 # Jest
 #
 .jest/
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
