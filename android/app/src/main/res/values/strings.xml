@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Surf</string>
+    <string name="facebook_app_id">171801473548897</string>
+    <string name="fb_login_protocol_scheme">fb171801473548897</string>
 </resources>
