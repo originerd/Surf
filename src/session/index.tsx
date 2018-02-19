@@ -6,9 +6,8 @@ import {
   View,
 } from 'react-native';
 
-import colors from '../styles/colors';
-import typography from '../styles/typography';
-import EmotionColorsLine from "../common/EmotionColorsLine";
+import { auth, EmotionColorsLine, firebase } from '../common';
+import { colors, typography } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,41 +33,43 @@ const styles = StyleSheet.create({
   },
 });
 
-const Session = () => (
-  <View style={styles.container}>
-    <View>
-      <Text style={styles.title}>
-        감정을 나눠요
-      </Text>
-      <Text style={styles.subTitle}>
-        당신의 이야기가 듣고 싶어요!
-      </Text>
-    </View>
-    <EmotionColorsLine />
-    <View>
-      <View style={styles.loginButtonContainer}>
-        <Button
-          color={colors.facebook}
-          onPress={() => undefined}
-          title="페이스북으로 시작하기"
-        />
+class Session extends React.Component {
+  private signInWithFacebook = async () => {
+    try {
+      const token = await auth.Facebook.login();
+
+      firebase.auth().signInAndRetrieveDataWithCredential(
+        firebase.auth.FacebookAuthProvider.credential(token),
+      );
+    } catch (error) {
+      // handle error
+    }
+  }
+
+  public render() {
+    return (
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.title}>
+            감정을 나눠요
+          </Text>
+          <Text style={styles.subTitle}>
+            당신의 이야기가 듣고 싶어요!
+          </Text>
+        </View>
+        <EmotionColorsLine />
+        <View>
+          <View style={styles.loginButtonContainer}>
+            <Button
+              color={colors.facebook}
+              onPress={this.signInWithFacebook}
+              title="페이스북으로 시작하기"
+            />
+          </View>
+        </View>
       </View>
-      <View style={styles.loginButtonContainer}>
-        <Button
-          color={colors.twitter}
-          onPress={() => undefined}
-          title="트위터로 시작하기"
-        />
-      </View>
-      <View style={styles.loginButtonContainer}>
-        <Button
-          color={colors.google}
-          onPress={() => undefined}
-          title="구글로 시작하기"
-        />
-      </View>
-    </View>
-  </View>
-);
+    );
+  }
+}
 
 export default Session;
