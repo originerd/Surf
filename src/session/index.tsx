@@ -41,6 +41,22 @@ class Session extends React.Component {
       const response = await auth.Facebook.login();
 
       await firebase.auth.signInAndRetrieveDataWithCredential(response.credentials.token);
+
+      const currentUser = firebase.auth.getCurrentUser();
+      if (!currentUser) {
+        return;
+      }
+
+      const { email, name } = response.profile;
+      const profileImageURL = response.profile.picture.data.url;
+
+      const user: Types.User = {
+        email,
+        name,
+        profileImageURL,
+      };
+
+      await firebase.database.updateUser(currentUser.uid, user);
     } catch (error) {
       // handle error
     }
