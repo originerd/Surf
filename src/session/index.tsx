@@ -6,8 +6,10 @@ import {
   View,
 } from 'react-native';
 
-import { auth, EmotionColorsLine, firebase } from '../common';
+import { auth, EmotionColorsLine } from '../common';
+import firebase from '../firebase';
 import { colors, typography } from '../styles';
+import * as Types from '../types';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,11 +38,9 @@ const styles = StyleSheet.create({
 class Session extends React.Component {
   private signInWithFacebook = async () => {
     try {
-      const token = await auth.Facebook.login();
+      const response = await auth.Facebook.login();
 
-      firebase.auth().signInAndRetrieveDataWithCredential(
-        firebase.auth.FacebookAuthProvider.credential(token),
-      );
+      await firebase.auth.signInAndRetrieveDataWithCredential(response.credentials.token);
     } catch (error) {
       // handle error
     }
