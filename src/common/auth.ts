@@ -6,7 +6,12 @@ export namespace Facebook {
     new Promise((resolve, reject) => {
       FBLoginManager.loginWithPermissions(permissions, (error, data) => {
         if (!error) {
-          resolve(data);
+          const response: FBLoginResponse = {
+            ...data,
+            profile: JSON.parse(data.profile),
+          };
+
+          resolve(response);
         } else {
           reject(error);
         }

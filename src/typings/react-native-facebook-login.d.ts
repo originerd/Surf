@@ -41,11 +41,10 @@ declare module 'react-native-facebook-login' {
     verified: boolean;
   }
 
-  export interface FBLoginResponse {
+  export interface FBLoginResponseBase {
     declinedPermissions: Permissions[];
     provider: 'facebook';
     eventName: string;
-    profile: FBProfile;
     type: string;
     credentials: {
       permissions: Permissions[];
@@ -55,8 +54,16 @@ declare module 'react-native-facebook-login' {
     };
   }
 
+  export interface FBLoginOriginalResponse extends FBLoginResponseBase {
+    profile: string;
+  }
+
+  export interface FBLoginResponse extends FBLoginResponseBase {
+    profile: FBProfile;
+  }
+
   export namespace FBLoginManager {
-    function loginWithPermissions(permissions: Permissions[], callback: (error: Error, data: FBLoginResponse) => void): void;
+    function loginWithPermissions(permissions: Permissions[], callback: (error: Error, data: FBLoginOriginalResponse) => void): void;
     function logout(callback: (error: Error, data: { credentials: { token: string } }) => void): void;
   }
 }
