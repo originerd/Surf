@@ -77,7 +77,7 @@ class Session extends React.Component {
         <View>
           <View style={styles.loginButtonContainer}>
             <Button
-              color={colors.facebook}
+              color="white"
               onPress={this.signInWithFacebook}
               title="페이스북으로 시작하기"
             />
