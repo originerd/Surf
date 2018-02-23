@@ -25,7 +25,6 @@ declare module 'react-native-facebook-login' {
     first_name: string;
     last_name: string;
     link: string;
-    user_id: string;
     picture: {
       data: {
         height: number;
@@ -55,7 +54,7 @@ declare module 'react-native-facebook-login' {
   }
 
   export interface FBLoginOriginalResponse extends FBLoginResponseBase {
-    profile: string;
+    profile?: string;
   }
 
   export interface FBLoginResponse extends FBLoginResponseBase {
