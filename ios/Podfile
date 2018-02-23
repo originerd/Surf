@@ -8,6 +8,7 @@ target 'Surf' do
   # Pods for Surf
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Firebase/Database'
 
   target 'Surf-tvOSTests' do
     inherit! :search_paths
