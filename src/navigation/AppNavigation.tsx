@@ -5,6 +5,7 @@ import { Text } from 'react-native';
 import { Loading, Stores } from '../common';
 import Session from '../session';
 import * as Types from '../types';
+import MainNavigation from './MainNavigation';
 
 interface AppNavigationInjectProps {
   hasAuthChecked: boolean;
@@ -27,7 +28,7 @@ class AppNavigation extends React.Component<AppNavigationProps> {
     }
 
     if (user) {
-      return <Text>HOME</Text>;
+      return <MainNavigation />;
     }
 
     return <Session />;
