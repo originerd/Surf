@@ -2,10 +2,9 @@ import * as React from 'react';
 import { RNFirebase } from 'react-native-firebase';
 import { observer, Provider } from 'mobx-react';
 
-import { stores } from '../common';
+import { stores, Types } from '../common';
 import firebase from '../firebase';
 import AppNavigation from '../navigation/AppNavigation';
-import * as Types from '../types';
 
 @observer
 class App extends React.Component {

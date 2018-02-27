@@ -2,9 +2,8 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Text } from 'react-native';
 
-import { Loading, Stores } from '../common';
+import { Loading, Stores, Types } from '../common';
 import Session from '../session';
-import * as Types from '../types';
 import MainNavigation from './MainNavigation';
 
 interface AppNavigationInjectProps {

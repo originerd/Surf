@@ -1,7 +1,7 @@
 import { FBLoginManager, FBLoginResponse, FBProfile } from 'react-native-facebook-login';
 import { Permissions } from 'react-native-fbsdk';
 
-import * as Types from '../types';
+import * as Types from './types';
 
 export namespace Facebook {
   const API_URL = "https://graph.facebook.com/v2.12/me";

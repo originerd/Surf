@@ -6,10 +6,9 @@ import {
   View,
 } from 'react-native';
 
-import { auth, EmotionColorsLine } from '../common';
+import { auth, EmotionColorsLine, Types } from '../common';
 import firebase from '../firebase';
 import { colors, typography } from '../styles';
-import * as Types from '../types';
 
 const styles = StyleSheet.create({
   container: {

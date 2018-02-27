@@ -1,6 +1,6 @@
 import firebase from 'react-native-firebase';
 
-import * as Types from '../../types';
+import { Types } from '../../common';
 
 export const updateUser = async (uid: string, user: Types.User) => {
   const now = Date.now();
