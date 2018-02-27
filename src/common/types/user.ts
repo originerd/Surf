@@ -1,11 +1,14 @@
 import { FBProfile } from 'react-native-facebook-login';
 
-export interface User {
+export interface UserSpecification {
   email: string;
   name: string;
   profileImageURL: string;
-  createdAt?: number;
-  updatedAt?: number;
+}
+
+export interface User extends UserSpecification {
+  createdAt: number;
+  updatedAt: number;
 }
 
 const sampleFBProfile: FBProfile = {

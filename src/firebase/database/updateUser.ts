@@ -2,12 +2,12 @@ import firebase from 'react-native-firebase';
 
 import { Types } from '../../common';
 
-export const updateUser = async (uid: string, user: Types.User) => {
+export const updateUser = async (uid: string, user: Types.UserSpecification) => {
   const now = Date.now();
 
   const storedUser: Types.User = (await firebase.database().ref(`users/${uid}`).once('value')).val() || {};
 
-  const updatedUser = {
+  const updatedUser: Types.User = {
     ...storedUser,
     ...user,
     createdAt: storedUser.createdAt || now,

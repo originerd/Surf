@@ -49,7 +49,7 @@ class Session extends React.Component {
       const { email, name } = response.profile;
       const profileImageURL = response.profile.picture.data.url;
 
-      const user: Types.User = {
+      const user: Types.UserSpecification = {
         email,
         name,
         profileImageURL,
