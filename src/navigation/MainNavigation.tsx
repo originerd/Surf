@@ -8,6 +8,12 @@ import HomeNavigation from './HomeNavigation';
 const MainNavigation = StackNavigator(
   {
     Home: { screen: HomeNavigation },
+    Write: {
+      navigationOptions: {
+        title: 'Write',
+      },
+      screen: () => <Text>Write</Text>,
+    },
   },
   {
     navigationOptions: {

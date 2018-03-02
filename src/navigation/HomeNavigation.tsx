@@ -7,7 +7,10 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { TabNavigator } from 'react-navigation';
+import {
+  NavigationScreenProp,
+  TabNavigator,
+} from 'react-navigation';
 
 import { colors } from '../styles';
 
@@ -47,17 +50,25 @@ const TabNavigation = TabNavigator(
   },
 );
 
-const HomeNavigation = () => (
+interface TabNavigationInjectProps {
+  navigation: NavigationScreenProp<{}, {}>;
+}
+
+type TabNavigationProps = Partial<TabNavigationInjectProps>;
+
+const HomeNavigation = ({ navigation }: TabNavigationProps) => (
   <View style={{ display: 'flex', flex: 1 }}>
     <TabNavigation />
     <TouchableHighlight
-      onPress={() => null}
+      onPress={() => {
+        navigation!.navigate('Write');
+      }}
       style={styles.writeButtonContainer}
       underlayColor={colors.blue}
     >
       <Icon color="white" name="pencil" size={24} />
     </TouchableHighlight>
   </View>
-)
+);
 
-export default HomeNavigation;
+export default TabNavigation;
