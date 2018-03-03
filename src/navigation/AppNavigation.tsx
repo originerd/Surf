@@ -20,7 +20,7 @@ type AppNavigationProps = Partial<AppNavigationInjectProps>;
 @observer
 class AppNavigation extends React.Component<AppNavigationProps> {
   public render() {
-    const { hasAuthChecked, user } = this.props as AppNavigationProps;
+    const { hasAuthChecked, user } = this.props;
 
     if (!hasAuthChecked) {
       return <Loading />;
