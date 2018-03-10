@@ -50,18 +50,18 @@ const TabNavigation = TabNavigator(
   },
 );
 
-interface TabNavigationInjectProps {
+interface TabNavigationOwnProps {
   navigation: NavigationScreenProp<{}, {}>;
 }
 
-type TabNavigationProps = Partial<TabNavigationInjectProps>;
+type TabNavigationProps = TabNavigationOwnProps;
 
 const HomeNavigation = ({ navigation }: TabNavigationProps) => (
   <View style={{ display: 'flex', flex: 1 }}>
     <TabNavigation />
     <TouchableHighlight
       onPress={() => {
-        navigation!.navigate('Write');
+        navigation.navigate('Write');
       }}
       style={styles.writeButtonContainer}
       underlayColor={colors.blue}
@@ -71,4 +71,4 @@ const HomeNavigation = ({ navigation }: TabNavigationProps) => (
   </View>
 );
 
-export default TabNavigation;
+export default HomeNavigation;

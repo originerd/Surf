@@ -11,13 +11,8 @@ interface AppNavigationInjectProps {
   user?: Types.User;
 }
 
-type AppNavigationProps = Partial<AppNavigationInjectProps>;
+type AppNavigationProps = AppNavigationInjectProps;
 
-@inject((stores: Stores): AppNavigationProps => ({
-  hasAuthChecked: stores.sessionStore.hasAuthChecked,
-  user: stores.sessionStore.user,
-}))
-@observer
 class AppNavigation extends React.Component<AppNavigationProps> {
   public render() {
     const { hasAuthChecked, user } = this.props;
@@ -34,4 +29,7 @@ class AppNavigation extends React.Component<AppNavigationProps> {
   }
 }
 
-export default AppNavigation;
+export default inject((stores: Stores): AppNavigationInjectProps => ({
+  hasAuthChecked: stores.sessionStore.hasAuthChecked,
+  user: stores.sessionStore.user,
+}))(observer(AppNavigation));
