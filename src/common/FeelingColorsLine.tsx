@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const emotionColors = [
+const feelingColors = [
   colors.angry,
   colors.excited,
   colors.happy,
@@ -28,7 +28,7 @@ const emotionColors = [
 ];
 
 const renderColumns = () =>
-  emotionColors.map((backgroundColor, index) =>
+  feelingColors.map((backgroundColor, index) =>
     <View key={index} style={[styles.column, { backgroundColor }]} />
   );
 

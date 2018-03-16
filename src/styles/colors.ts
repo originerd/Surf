@@ -14,7 +14,7 @@ export default {
   darkYellow: '#E6B200',
   darkerYellow: '#B28A00',
 
-  /* emotion colors */
+  /* feeling colors */
   angry: '#EE5F61',
   excited: '#F5A331',
   happy: '#FBCF43',

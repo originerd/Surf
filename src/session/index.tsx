@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 
-import { auth, EmotionColorsLine, Types } from '../common';
+import { auth, FeelingColorsLine, Types } from '../common';
 import firebase from '../firebase';
 import { colors, typography } from '../styles';
 
@@ -72,7 +72,7 @@ class Session extends React.Component {
             당신의 이야기가 듣고 싶어요!
           </Text>
         </View>
-        <EmotionColorsLine />
+        <FeelingColorsLine />
         <View>
           <View style={styles.loginButtonContainer}>
             <Button
