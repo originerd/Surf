@@ -1,8 +1,8 @@
-import { Feelings } from './feeling';
+import { FeelingTypes } from './feeling';
 
 export interface WaveSpecification {
   content: string;
-  feeling: Feelings;
+  feeling: FeelingTypes;
 }
 
 export interface Wave extends WaveSpecification {

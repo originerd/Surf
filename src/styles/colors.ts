@@ -1,4 +1,9 @@
-export default {
+import { FeelingTypes } from "../common/types/feeling";
+
+type Colors = { [name in string]: string };
+type FeelingsColors = { [name in FeelingTypes]: string };
+
+const colors: Colors & FeelingsColors = {
   /* main colors */
   lighterBlue: '#3E89DD',
   lightBlue: '#1172DF',
@@ -26,4 +31,6 @@ export default {
   google: '#d34836',
   facebook: '#3b5998',
   twitter: '#00aced',
-}
+};
+
+export default colors;

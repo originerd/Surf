@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import colors from '../styles/colors';
+import * as Types from './types';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,18 +19,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const feelingColors = [
-  colors.angry,
-  colors.excited,
-  colors.happy,
-  colors.tender,
-  colors.sad,
-  colors.scared,
-];
-
 const renderColumns = () =>
-  feelingColors.map((backgroundColor, index) =>
-    <View key={index} style={[styles.column, { backgroundColor }]} />
+  Object.keys(Types.Feelings).map((feeling, index) =>
+    <View key={index} style={[styles.column, { backgroundColor: colors[feeling] }]} />
   );
 
 const ColorsLine = () => (
