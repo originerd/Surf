@@ -46,6 +46,7 @@ class Session extends React.Component {
         return;
       }
 
+      const { uid } = currentUser;
       const { email, name } = response.profile;
       const profileImageURL = response.profile.picture.data.url;
 
@@ -53,9 +54,10 @@ class Session extends React.Component {
         email,
         name,
         profileImageURL,
+        uid,
       };
 
-      await firebase.database.updateUser(currentUser.uid, user);
+      await firebase.database.updateUser(uid, user);
     } catch (error) {
       // handle error
     }

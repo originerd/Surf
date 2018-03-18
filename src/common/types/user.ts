@@ -4,6 +4,7 @@ export interface UserSpecification {
   email: string;
   name: string;
   profileImageURL: string;
+  uid: string;
 }
 
 export interface User extends UserSpecification {

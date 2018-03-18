@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 
-import { Types}  from '../common';
+import { Types }  from '../common';
 
 class SessionStore {
   @observable public hasAuthChecked: boolean = false;
