@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import { colors } from '../styles';
+import Write from "../write";
 import HomeNavigation from './HomeNavigation';
 
 const MainNavigation = StackNavigator(
@@ -12,7 +13,7 @@ const MainNavigation = StackNavigator(
       navigationOptions: {
         title: 'Write',
       },
-      screen: () => <Text>Write</Text>,
+      screen: Write,
     },
   },
   {

@@ -1,7 +1,7 @@
 import { FeelingTypes } from './feeling';
 
 export interface WaveSpecification {
-  content: string;
+  content?: string;
   feeling: FeelingTypes;
 }
 
