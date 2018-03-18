@@ -14,3 +14,5 @@ export const Feelings: { [feelingType in FeelingTypes]: string } = {
   scared: 'Scared',
   tender: 'Tender',
 };
+
+export const FeelingTypes = Object.keys(Feelings) as FeelingTypes[];

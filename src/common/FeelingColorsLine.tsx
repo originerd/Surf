@@ -4,7 +4,7 @@ import {
   View,
 } from 'react-native';
 
-import colors from '../styles/colors';
+import { feelingColors } from '../styles/colors';
 import * as Types from './types';
 
 const styles = StyleSheet.create({
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 });
 
 const renderColumns = () =>
-  Object.keys(Types.Feelings).map((feeling, index) =>
-    <View key={index} style={[styles.column, { backgroundColor: colors[feeling] }]} />
+  Types.FeelingTypes.map((feeling, index) =>
+    <View key={index} style={[styles.column, { backgroundColor: feelingColors[feeling] }]} />
   );
 
 const ColorsLine = () => (

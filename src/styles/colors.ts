@@ -1,10 +1,6 @@
 import { FeelingTypes } from "../common/types/feeling";
 
-type Colors = { [name in string]: string };
-type FeelingsColors = { [name in FeelingTypes]: string };
-
-const colors: Colors & FeelingsColors = {
-  /* main colors */
+const colors = {
   lighterBlue: '#3E89DD',
   lightBlue: '#1172DF',
   blue: '#0563CB',
@@ -19,6 +15,13 @@ const colors: Colors & FeelingsColors = {
   darkYellow: '#E6B200',
   darkerYellow: '#B28A00',
 
+  /* sns colors */
+  google: '#d34836',
+  facebook: '#3b5998',
+  twitter: '#00aced',
+}
+
+const feelingColors: { [name in FeelingTypes]: string } = {
   /* feeling colors */
   angry: '#EE5F61',
   excited: '#F5A331',
@@ -26,11 +29,6 @@ const colors: Colors & FeelingsColors = {
   sad: '#4CC6FB',
   scared: '#C897EC',
   tender: '#82D8B7',
-
-  /* sns colors */
-  google: '#d34836',
-  facebook: '#3b5998',
-  twitter: '#00aced',
 };
 
-export default colors;
+export { colors, feelingColors };
