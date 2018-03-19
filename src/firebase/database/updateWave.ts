@@ -15,8 +15,10 @@ export const updateWave = (uid: string, wave: Types.WaveSpecification) => {
   };
 
   const updates = {
+    [`feelings/${data.feeling}/${waveID}`]: data,
     [`likeCounts/${waveID}`]: 0,
     [`ocean/${waveID}`]: data,
+    [`timeline/${uid}/${waveID}`]: data,
     [`waves/${uid}/${waveID}`]: data,
   };
 
