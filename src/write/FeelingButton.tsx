@@ -1,4 +1,4 @@
-import { inject, observer } from "mobx-react";
+import { inject, observer } from "mobx-react/native";
 import * as React from 'react';
 import {
   StyleSheet,
@@ -67,7 +67,6 @@ const FeelingButton = ({ feeling, selectedFeeling, setSelectedFeeling }: Feeling
     </TouchableHighlight>
   );
 };
-
 
 export default inject<Stores, FeelingButtonProps, FeelingButtonInjectProps>((stores) => ({
   selectedFeeling: stores.writeStore.feeling,
