@@ -9,13 +9,14 @@ import AppNavigation from '../navigation/AppNavigation';
 @observer
 class App extends React.Component {
   private handleAuthStateChanged = async (user: RNFirebase.User) => {
-    let storedUser: Types.User | undefined;
-
-    if (user) {
-      storedUser = await firebase.database.getUser(user.uid);
+    if (!user) {
+      return;
     }
 
+    const storedUser = await firebase.database.getUser(user.uid);
+
     stores.sessionStore.setUser(storedUser);
+    stores.userStore.setUser(storedUser);
   }
 
   public componentDidMount() {
