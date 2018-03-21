@@ -12,6 +12,7 @@ import {
   TabNavigator,
 } from 'react-navigation';
 
+import Timeline from '../timeline';
 import { colors } from '../styles';
 
 const IOS_TAB_HEIGHT = 48.5;
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
 
 const TabNavigation = TabNavigator(
   {
-    Timeline: { screen: () => <Text>Timeline</Text> },
+    Timeline: { screen: Timeline },
     Ocean: { screen: () => <Text>Ocean</Text> },
     Me: { screen: () => <Text>Me</Text> },
   },
