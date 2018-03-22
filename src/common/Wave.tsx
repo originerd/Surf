@@ -1,4 +1,5 @@
 import { inject, observer } from 'mobx-react/native';
+import * as moment from 'moment';
 import * as React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
@@ -37,6 +38,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
+  profileContentContainer: {
+    justifyContent: 'space-between',
+    marginLeft: 10,
+  },
   profileImage: {
     flex: 1,
   },
@@ -49,7 +54,9 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: typography.fontSizeMedium,
-    marginLeft: 10,
+  },
+  publishedDate: {
+    fontSize: typography.fontSizeSmall,
   },
 });
 
@@ -66,15 +73,35 @@ type WaveProps =
   WaveOwnProps;
 
 class Wave extends React.Component<WaveProps> {
+  private get publishedDate() {
+    const { createdAt } = this.props.wave;
+    const publishedDate = moment(createdAt);
+    const now = moment();
+
+    // if the published date is within a day
+    if (publishedDate.clone().add(1, 'day').isAfter(now)) {
+      return publishedDate.fromNow();
+    }
+
+    return publishedDate.format('lll');
+  }
+
   private renderProfile = () => {
+    const userName = this.user && this.user.name;
+
     return (
       <View style={styles.profileContainer}>
         <View style={styles.profileImageContainer}>
           {this.renderProfileImage()}
         </View>
-        <Text style={styles.profileName}>
-          {this.user && this.user.name}
-        </Text>
+        <View style={styles.profileContentContainer}>
+          <Text style={styles.profileName}>
+            {userName}
+          </Text>
+          <Text style={styles.publishedDate}>
+            {this.publishedDate}
+          </Text>
+        </View>
       </View>
     );
   }
