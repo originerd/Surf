@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+import 'moment/locale/ko';
 import * as React from 'react';
 import { RNFirebase } from 'react-native-firebase';
 import { observer, Provider } from 'mobx-react';
@@ -21,6 +23,8 @@ class App extends React.Component {
 
   public componentDidMount() {
     firebase.auth.onAuthStateChanged(this.handleAuthStateChanged);
+
+    moment.locale('ko');
   }
 
   public render() {
