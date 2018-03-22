@@ -1,6 +1,10 @@
 import { observer } from 'mobx-react/native';
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+} from 'react-native';
 
 import { Types } from '../common';
 import Wave from './Wave';
@@ -10,6 +14,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
   },
+  contentContainer: {
+    paddingBottom: 8,
+  },
 });
 
 interface WavesProps {
@@ -18,18 +25,21 @@ interface WavesProps {
 
 @observer
 class Waves extends React.Component<WavesProps> {
-  private renderWaves = () =>
-    this.props.waves.map((wave) =>
-      <Wave key={wave.waveID} wave={wave} />,
-    );
+  private keyExtractor = (wave: Types.Wave) => wave.waveID
+
+  private renderWave = ({ item }: ListRenderItemInfo<Types.Wave>) => <Wave wave={item} />
 
   public render() {
     const { waves } = this.props;
 
     return (
-      <View style={styles.container}>
-        {this.renderWaves()}
-      </View>
+      <FlatList
+        contentContainerStyle={styles.contentContainer}
+        data={waves}
+        keyExtractor={this.keyExtractor}
+        renderItem={this.renderWave}
+        style={styles.container}
+      />
     );
   }
 }
