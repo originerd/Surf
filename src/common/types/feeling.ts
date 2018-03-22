@@ -7,12 +7,12 @@ export type FeelingTypes =
   'tender';
 
 export const Feelings: { [feelingType in FeelingTypes]: string } = {
-  angry: 'Angry',
-  excited: 'Excited',
-  happy: 'Happy',
-  sad: 'Sad',
-  scared: 'Scared',
-  tender: 'Tender',
+  angry: '화남',
+  excited: '기대',
+  happy: '행복',
+  tender: '감동',
+  sad: '슬픔',
+  scared: '무서움',
 };
 
 export const FeelingTypes = Object.keys(Feelings) as FeelingTypes[];
