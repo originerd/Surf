@@ -14,6 +14,12 @@
   version "22.0.1"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.0.1.tgz#6370a6d60cce3845e4cd5d00bf65f654264685bc"
 
+"@types/moment@^2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@types/moment/-/moment-2.13.0.tgz#604ebd189bc3bc34a1548689404e61a2a4aac896"
+  dependencies:
+    moment "*"
+
 "@types/react-native-fbsdk@^0.6.1":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@types/react-native-fbsdk/-/react-native-fbsdk-0.6.1.tgz#3cd054320fbaf6fc1cae93b82b2a714d9f88bcd4"
@@ -3253,6 +3259,10 @@ mobx-react@^4.4.2:
 mobx@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.5.1.tgz#8e682ec535cf44e04005b9e37e2df66acc975a42"
+
+moment@*, moment@^2.21.0:
+  version "2.21.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
 
 morgan@~1.6.1:
   version "1.6.1"
