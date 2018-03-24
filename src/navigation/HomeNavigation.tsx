@@ -12,6 +12,7 @@ import {
   TabNavigator,
 } from 'react-navigation';
 
+import Ocean from '../ocean';
 import Timeline from '../timeline';
 import { colors } from '../styles';
 
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
 const TabNavigation = TabNavigator(
   {
     Timeline: { screen: Timeline },
-    Ocean: { screen: () => <Text>Ocean</Text> },
+    Ocean: { screen: Ocean },
     Me: { screen: () => <Text>Me</Text> },
   },
   {
