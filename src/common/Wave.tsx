@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   profileContainer: {
-    alignItems: 'center',
     flexDirection: 'row',
   },
   profileContentContainer: {
@@ -54,6 +53,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: typography.fontSizeMedium,
+    fontWeight: 'bold',
   },
   publishedDate: {
     fontSize: typography.fontSizeSmall,
