@@ -117,7 +117,7 @@ class Wave extends React.Component<WaveProps> {
   private get user() {
     const { userStore, wave } = this.props;
 
-    return userStore.users[wave.uid];
+    return userStore.users.get(wave.uid);
   }
 
   public async componentDidMount() {

@@ -3,10 +3,10 @@ import { action, observable } from 'mobx';
 import { Types }  from '../common';
 
 class UserStore {
-  @observable public users: { [uid in string]: Types.User } = {};
+  @observable public users: Map<string, Types.User> = new Map();
 
   @action public setUser = (user: Types.User) => {
-    this.users[user.uid] = user;
+    this.users.set(user.uid, user);
   }
 }
 
