@@ -1,3 +1,4 @@
+import { inject, observer } from "mobx-react/native";
 import * as React from 'react';
 import {
   Platform,
@@ -16,6 +17,8 @@ import Ocean from '../ocean';
 import Profile from '../profile';
 import Timeline from '../timeline';
 import { colors } from '../styles';
+import NavigationStore from './NavigationStore';
+import { Stores } from '../common';
 
 const IOS_TAB_HEIGHT = 48.5;
 
@@ -53,25 +56,47 @@ const TabNavigation = TabNavigator(
   },
 );
 
-interface TabNavigationOwnProps {
+interface HomeNavigationInjectProps {
+  navigationStore: NavigationStore;
+}
+
+interface HomeNavigationOwnProps {
   navigation: NavigationScreenProp<{}, {}>;
 }
 
-type TabNavigationProps = TabNavigationOwnProps;
+type HomeNavigationProps =
+  HomeNavigationInjectProps &
+  HomeNavigationOwnProps;
 
-const HomeNavigation = ({ navigation }: TabNavigationProps) => (
-  <View style={{ display: 'flex', flex: 1 }}>
-    <TabNavigation />
-    <TouchableHighlight
-      onPress={() => {
-        navigation.navigate('Write');
-      }}
-      style={styles.writeButtonContainer}
-      underlayColor={colors.blue}
-    >
-      <Icon color="white" name="pencil" size={24} />
-    </TouchableHighlight>
-  </View>
-);
+class HomeNavigation extends React.Component<HomeNavigationProps> {
+  public componentWillMount() {
+    const { navigation, navigationStore } = this.props;
 
-export default HomeNavigation;
+    navigationStore.setMainNavigation(navigation);
+  }
+
+  public navigateToWrite = () => {
+    const { mainNavigation } = this.props.navigationStore;
+
+    mainNavigation.navigate('Write');
+  }
+
+  public render() {
+    return (
+      <View style={{ display: 'flex', flex: 1 }}>
+        <TabNavigation />
+        <TouchableHighlight
+          onPress={this.navigateToWrite}
+          style={styles.writeButtonContainer}
+          underlayColor={colors.blue}
+        >
+          <Icon color="white" name="pencil" size={24} />
+        </TouchableHighlight>
+      </View>
+    );
+  }
+}
+
+export default inject((stores: Stores): HomeNavigationInjectProps => ({
+  navigationStore: stores.navigationStore,
+}))(observer(HomeNavigation));
