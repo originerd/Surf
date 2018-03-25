@@ -1,6 +1,7 @@
 import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationScreenProp } from "react-navigation";
 
 import { Stores, Types, Waves } from '../common';
 import firebase from '../firebase';
@@ -17,34 +18,62 @@ const styles = StyleSheet.create({
 
 interface ProfileInjectProps {
   profileStore: ProfileStore;
-  uid: string;
+  userUID: string;
 }
 
-type ProfileProps = ProfileInjectProps;
+interface ProfileOwnProps {
+  navigation: NavigationScreenProp<{ params?: { uid: string } }, {}>;
+}
+
+type ProfileProps =
+  ProfileInjectProps &
+  ProfileOwnProps;
 
 class Profile extends React.Component<ProfileProps> {
+  private get uid() {
+    const { navigation, userUID } = this.props;
+    const { params } = navigation.state;
+
+    return (params && params.uid) || userUID;
+  }
+
   private subscribeWaves = () => {
-    const { profileStore, uid } = this.props;
+    const { profileStore } = this.props;
 
     firebase.database.subscribeWaves(
-      uid,
+      this.uid,
       (snapshot) => {
         const wave: Types.Wave = snapshot.val();
 
-        profileStore.prependWave(uid, wave);
+        profileStore.prependWave(this.uid, wave);
       },
     );
   }
 
-  public async componentWillMount() {
-    this.subscribeWaves();
+  public componentWillMount() {
+    const { profileStore } = this.props;
+
+    if (!profileStore.wavesByUID.get(this.uid)) {
+      this.subscribeWaves();
+    }
+  }
+
+  public componentWillUnmount() {
+    const { navigation, profileStore, userUID } = this.props;
+
+    const { params } = navigation.state;
+
+    if (!params || params.uid && params.uid === userUID) {
+      return;
+    }
+
+    profileStore.deleteWaves(params.uid);
   }
 
   public render() {
-    const { uid } = this.props;
     const { wavesByUID } = this.props.profileStore;
 
-    const waves = wavesByUID.get(uid) || [];
+    const waves = wavesByUID.get(this.uid) || [];
 
     return (
       <View style={styles.container}>
@@ -56,5 +85,5 @@ class Profile extends React.Component<ProfileProps> {
 
 export default inject((stores: Stores, props: ProfileProps): ProfileInjectProps => ({
   profileStore: stores.profileStore,
-  uid: props.uid || stores.sessionStore.user!.uid,
+  userUID: stores.sessionStore.user!.uid,
 }))(observer(Profile));
