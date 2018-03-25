@@ -12,7 +12,7 @@ import UserStore from "../user/UserStore";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: 'whitesmoke',
     borderRadius: 4,
     display: 'flex',
     marginHorizontal: 8,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   feeling: {
-    color: 'white',
+    color: 'whitesmoke',
     fontSize: typography.fontSizeSmall,
     fontWeight: 'bold',
   },

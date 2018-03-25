@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSizeMedium,
   },
   title: {
-    color: 'white',
+    color: 'whitesmoke',
     fontSize: typography.fontSizeLarge,
     fontWeight: 'bold',
     marginBottom: 10,

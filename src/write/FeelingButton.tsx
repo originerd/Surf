@@ -47,7 +47,7 @@ type FeelingButtonProps = FeelingButtonInjectProps & FeelingButtonOwnProps;
 const FeelingButton = ({ feeling, selectedFeeling, setSelectedFeeling }: FeelingButtonProps) => {
   const isSelectedFeeling = selectedFeeling === feeling;
   const backgroundColor = isSelectedFeeling ? feelingColors[feeling] : '#EEEEEE';
-  const color = isSelectedFeeling ? 'white' : 'black';
+  const color = isSelectedFeeling ? 'whitesmoke' : 'black';
 
   return (
     <TouchableHighlight
