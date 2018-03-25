@@ -1,6 +1,7 @@
 import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { RNFirebase } from "react-native-firebase";
 import { NavigationScreenProp } from "react-navigation";
 
 import { Stores, Types, Waves } from '../common';
@@ -40,34 +41,45 @@ class Profile extends React.Component<ProfileProps> {
   private subscribeWaves = () => {
     const { profileStore } = this.props;
 
-    firebase.database.subscribeWaves(
-      this.uid,
-      (snapshot) => {
-        const wave: Types.Wave = snapshot.val();
+    if (!profileStore.referenceCountsByUId.get(this.uid)) {
+      firebase.database.subscribeWaves(
+        this.uid,
+        this.subscribeWavesHandler,
+      );
+    }
 
-        profileStore.prependWave(this.uid, wave);
-      },
-    );
+    profileStore.increaseReferenceCount(this.uid);
+  }
+
+  private subscribeWavesHandler = (snapshot: RNFirebase.database.DataSnapshot) => {
+    const { profileStore } = this.props;
+    const wave: Types.Wave = snapshot.val();
+
+    profileStore.prependWave(this.uid, wave);
+  }
+
+  private unsubscribeWaves = () => {
+    const { navigation, profileStore, userUID } = this.props;
+    const { params } = navigation.state;
+
+    profileStore.decreseReferenceCount(this.uid);
+
+    if (!profileStore.referenceCountsByUId.get(this.uid)) {
+      firebase.database.unsubscribeWaves(
+        this.uid,
+        this.subscribeWavesHandler,
+      );
+
+      profileStore.deleteWaves(this.uid);
+    }
   }
 
   public componentWillMount() {
-    const { profileStore } = this.props;
-
-    if (!profileStore.wavesByUID.get(this.uid)) {
-      this.subscribeWaves();
-    }
+    this.subscribeWaves();
   }
 
   public componentWillUnmount() {
-    const { navigation, profileStore, userUID } = this.props;
-
-    const { params } = navigation.state;
-
-    if (!params || params.uid && params.uid === userUID) {
-      return;
-    }
-
-    profileStore.deleteWaves(params.uid);
+    this.unsubscribeWaves();
   }
 
   public render() {
