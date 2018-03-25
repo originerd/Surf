@@ -1,10 +1,12 @@
 import { inject, observer } from 'mobx-react/native';
 import * as moment from 'moment';
 import * as React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { NavigationScreenProp } from 'react-navigation';
 
 import { Types, Stores } from '../common';
 import firebase from "../firebase";
+import NavigationStore from "../navigation/NavigationStore";
 import { colors, feelingColors, typography } from '../styles';
 import UserStore from "../user/UserStore";
 
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
 });
 
 interface WaveInjectProps {
+  navigationStore: NavigationStore;
   userStore: UserStore;
 }
 
@@ -73,6 +76,14 @@ type WaveProps =
   WaveOwnProps;
 
 class Wave extends React.Component<WaveProps> {
+  private navigateToProfile = () => {
+    const { navigationStore, wave } = this.props;
+    const { uid } = wave;
+    const userName = this.user && this.user.name;
+
+    navigationStore.mainNavigation.navigate('Profile', { uid, userName });
+  }
+
   private get publishedDate() {
     const { createdAt } = this.props.wave;
     const publishedDate = moment(createdAt);
@@ -90,19 +101,21 @@ class Wave extends React.Component<WaveProps> {
     const userName = this.user && this.user.name;
 
     return (
-      <View style={styles.profileContainer}>
-        <View style={styles.profileImageContainer}>
-          {this.renderProfileImage()}
+      <TouchableWithoutFeedback onPress={this.navigateToProfile}>
+        <View style={styles.profileContainer}>
+          <View style={styles.profileImageContainer}>
+            {this.renderProfileImage()}
+          </View>
+          <View style={styles.profileContentContainer}>
+            <Text style={styles.profileName}>
+              {userName}
+            </Text>
+            <Text style={styles.publishedDate}>
+              {this.publishedDate}
+            </Text>
+          </View>
         </View>
-        <View style={styles.profileContentContainer}>
-          <Text style={styles.profileName}>
-            {userName}
-          </Text>
-          <Text style={styles.publishedDate}>
-            {this.publishedDate}
-          </Text>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 
@@ -152,5 +165,6 @@ class Wave extends React.Component<WaveProps> {
 }
 
 export default inject<Stores, WaveProps, WaveInjectProps>((stores) => ({
+  navigationStore: stores.navigationStore,
   userStore: stores.userStore,
 }))(observer(Wave));

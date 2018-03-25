@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationScreenProp } from "react-navigation";
 
 import { colors } from '../styles';
 import Profile from "../profile";
@@ -10,10 +10,15 @@ import HomeNavigation from './HomeNavigation';
 const MainNavigation = StackNavigator(
   {
     Home: { screen: HomeNavigation },
-    Profile: { screen: Profile },
+    Profile: {
+      navigationOptions: ({ navigation }: { navigation: NavigationScreenProp<{ params: { userName: string }},{}> }) => ({
+        title: navigation.state.params.userName,
+      }),
+      screen: Profile,
+    },
     Write: {
       navigationOptions: {
-        title: 'Write',
+        title: '파도만들기',
       },
       screen: Write,
     },
