@@ -13,6 +13,7 @@ import {
 } from 'react-navigation';
 
 import Ocean from '../ocean';
+import Profile from '../profile';
 import Timeline from '../timeline';
 import { colors } from '../styles';
 
@@ -40,7 +41,7 @@ const TabNavigation = TabNavigator(
   {
     Timeline: { screen: Timeline },
     Ocean: { screen: Ocean },
-    Me: { screen: () => <Text>Me</Text> },
+    Profile: { screen: Profile },
   },
   {
     lazy: true,

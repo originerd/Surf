@@ -1,9 +1,9 @@
-import { action, observable, IObservableArray } from 'mobx';
+import { action, observable } from 'mobx';
 
 import { Types }  from '../common';
 
 class TimelineStore {
-  @observable public waves: IObservableArray<Types.Wave> = observable([]);
+  @observable public waves: Types.Wave[] = [];
 
   @action public prependWave = (wave: Types.Wave) => {
     this.waves.unshift(wave);
