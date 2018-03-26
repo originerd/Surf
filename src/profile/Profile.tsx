@@ -31,13 +31,6 @@ type ProfileProps =
   ProfileOwnProps;
 
 class Profile extends React.Component<ProfileProps> {
-  private get uid() {
-    const { navigation, userUID } = this.props;
-    const { params } = navigation.state;
-
-    return (params && params.uid) || userUID;
-  }
-
   private subscribeWaves = () => {
     const { profileStore } = this.props;
 
@@ -56,6 +49,13 @@ class Profile extends React.Component<ProfileProps> {
     const wave: Types.Wave = snapshot.val();
 
     profileStore.prependWave(this.uid, wave);
+  }
+
+  private get uid() {
+    const { navigation, userUID } = this.props;
+    const { params } = navigation.state;
+
+    return (params && params.uid) || userUID;
   }
 
   private unsubscribeWaves = () => {
@@ -83,13 +83,17 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   public render() {
+    const { navigation } = this.props;
     const { wavesByUID } = this.props.profileStore;
 
     const waves = wavesByUID.get(this.uid) || [];
 
     return (
       <View style={styles.container}>
-        <Waves waves={waves} />
+        <Waves
+          uid={navigation.state.params && navigation.state.params.uid}
+          waves={waves}
+        />
       </View>
     );
   }

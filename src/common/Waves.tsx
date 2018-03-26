@@ -8,6 +8,7 @@ import {
 
 import { Types } from '../common';
 import Wave from './Wave';
+import WavesHeader from "./WavesHeader";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,12 +21,19 @@ const styles = StyleSheet.create({
 });
 
 interface WavesProps {
+  uid?: string;
   waves: Types.Wave[];
 }
 
 @observer
 class Waves extends React.Component<WavesProps> {
   private keyExtractor = (wave: Types.Wave) => wave.waveID
+
+  private renderHeader = () => {
+    const { uid } = this.props;
+
+    return <WavesHeader uid={uid} />;
+  }
 
   private renderWave = ({ item }: ListRenderItemInfo<Types.Wave>) => <Wave wave={item} />
 
@@ -37,6 +45,7 @@ class Waves extends React.Component<WavesProps> {
         contentContainerStyle={styles.contentContainer}
         data={waves}
         keyExtractor={this.keyExtractor}
+        ListHeaderComponent={this.renderHeader}
         renderItem={this.renderWave}
         style={styles.container}
       />
