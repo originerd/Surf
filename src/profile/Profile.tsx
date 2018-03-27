@@ -91,7 +91,7 @@ class Profile extends React.Component<ProfileProps> {
     return (
       <View style={styles.container}>
         <Waves
-          uid={navigation.state.params && navigation.state.params.uid}
+          uid={this.uid}
           waves={waves}
         />
       </View>
