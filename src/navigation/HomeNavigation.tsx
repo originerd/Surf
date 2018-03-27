@@ -7,22 +7,29 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
   NavigationScreenProp,
   TabNavigator,
 } from 'react-navigation';
 
+import { getPlatformIconName, Stores } from '../common';
 import Ocean from '../ocean';
 import Profile from '../profile';
 import Timeline from '../timeline';
 import { colors } from '../styles';
 import NavigationStore from './NavigationStore';
-import { Stores } from '../common';
 
 const IOS_TAB_HEIGHT = 48.5;
 
 const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flex: 1,
+  },
+  tabBar: {
+    backgroundColor: colors.blue,
+  },
   writeButtonContainer: {
     alignItems: 'center',
     backgroundColor: colors.lightBlue,
@@ -40,18 +47,36 @@ const styles = StyleSheet.create({
   },
 });
 
+const getNavigationOption = (iconName: string) => ({
+  tabBarIcon: ({ focused, tintColor }: { focused: boolean, tintColor: string }) => (
+    <Icon color={tintColor} name={getPlatformIconName(iconName)} size={24} />
+  ),
+});
+
 const TabNavigation = TabNavigator(
   {
-    Timeline: { screen: Timeline },
-    Ocean: { screen: Ocean },
-    Profile: { screen: Profile },
+    Timeline: {
+      navigationOptions: getNavigationOption('home'),
+      screen: Timeline,
+    },
+    Ocean: {
+      navigationOptions: getNavigationOption('boat'),
+      screen: Ocean,
+    },
+    Profile: {
+      navigationOptions: getNavigationOption('person'),
+      screen: Profile,
+    },
   },
   {
     lazy: true,
     swipeEnabled: true,
     tabBarOptions: {
-      activeTintColor: colors.blue,
-      inactiveTintColor: 'gray',
+      activeTintColor: 'white',
+      inactiveTintColor: colors.lighterBlue,
+      showLabel: false,
+      showIcon: true,
+      style: styles.tabBar,
     },
   },
 );
@@ -83,14 +108,14 @@ class HomeNavigation extends React.Component<HomeNavigationProps> {
 
   public render() {
     return (
-      <View style={{ display: 'flex', flex: 1 }}>
+      <View style={styles.container}>
         <TabNavigation />
         <TouchableHighlight
           onPress={this.navigateToWrite}
           style={styles.writeButtonContainer}
           underlayColor={colors.blue}
         >
-          <Icon color="white" name="pencil" size={24} />
+          <Icon color="white" name={getPlatformIconName('moon')} size={24} />
         </TouchableHighlight>
       </View>
     );
