@@ -25,10 +25,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   feelingContainer: {
+    alignItems: 'center',
     borderRadius: 2,
     justifyContent: 'center',
-    paddingHorizontal: 8,
     paddingVertical: 4,
+    width: 50,
   },
   headerContainer: {
     alignItems: 'center',
