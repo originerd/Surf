@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 
 interface ProfileInjectProps {
   profileStore: ProfileStore;
-  userUID: string;
+  sessionUserUID: string;
 }
 
 interface ProfileOwnProps {
@@ -52,14 +52,14 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   private get uid() {
-    const { navigation, userUID } = this.props;
+    const { navigation, sessionUserUID } = this.props;
     const { params } = navigation.state;
 
-    return (params && params.uid) || userUID;
+    return (params && params.uid) || sessionUserUID;
   }
 
   private unsubscribeWaves = () => {
-    const { navigation, profileStore, userUID } = this.props;
+    const { navigation, profileStore, sessionUserUID } = this.props;
     const { params } = navigation.state;
 
     profileStore.decreseReferenceCount(this.uid);
@@ -101,5 +101,5 @@ class Profile extends React.Component<ProfileProps> {
 
 export default inject((stores: Stores, props: ProfileProps): ProfileInjectProps => ({
   profileStore: stores.profileStore,
-  userUID: stores.sessionStore.user!.uid,
+  sessionUserUID: stores.sessionStore.user!.uid,
 }))(observer(Profile));
