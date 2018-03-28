@@ -22,8 +22,8 @@ export const updateWave = (uid: string, wave: Types.WaveSpecification) => {
     [`waves/${uid}/${waveID}`]: data,
   };
 
-  return firebase
-    .database()
-    .ref()
-    .update(updates);
+  const updateWavePromise = firebase.database().ref().update(updates);
+  const updateWaveCountPromise = firebase.database().ref(`users/${uid}/waveCount`).transaction((waveCount) => waveCount + 1);
+
+  return Promise.all([updateWavePromise, updateWavePromise]);
 };
