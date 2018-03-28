@@ -60,7 +60,7 @@ interface WavesHeaderInjectProps {
 }
 
 interface WavesHeaderOwnProps {
-  uid: string;
+  uid?: string;
 }
 
 type WavesHeaderProps =
@@ -68,16 +68,22 @@ type WavesHeaderProps =
   WavesHeaderOwnProps;
 
 class WavesHeader extends React.Component<WavesHeaderProps> {
-  public render() {
+  private get user() {
     const { uid, userStore } = this.props;
 
-    const user = userStore.users.get(uid);
-
-    if (!user) {
+    if (!uid) {
       return null;
     }
 
-    const { followerCount, followingCount, name, profileImageURL, waveCount } = user;
+    return userStore.users.get(uid);
+  }
+
+  public render() {
+    if (!this.user) {
+      return null;
+    }
+
+    const { followerCount, followingCount, name, profileImageURL, waveCount } = this.user;
 
     return (
       <View style={styles.container}>
