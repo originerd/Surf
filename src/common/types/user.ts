@@ -9,7 +9,10 @@ export interface UserSpecification {
 
 export interface User extends UserSpecification {
   createdAt: number;
+  followerCount: number;
+  followingCount: number;
   updatedAt: number;
+  waveCount: number;
 }
 
 const sampleFBProfile: FBProfile = {
