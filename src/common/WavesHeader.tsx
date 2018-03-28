@@ -55,11 +55,12 @@ const styles = StyleSheet.create({
 });
 
 interface WavesHeaderInjectProps {
+  sessionUserUid: string;
   userStore: UserStore;
 }
 
 interface WavesHeaderOwnProps {
-  uid?: string;
+  uid: string;
 }
 
 type WavesHeaderProps =
@@ -70,13 +71,13 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
   public render() {
     const { uid, userStore } = this.props;
 
-    const user = uid && userStore.users.get(uid);
+    const user = userStore.users.get(uid);
 
-    if (!uid || !user) {
+    if (!user) {
       return null;
     }
 
-    const { name, profileImageURL } = user;
+    const { followerCount, followingCount, name, profileImageURL, waveCount } = user;
 
     return (
       <View style={styles.container}>
@@ -86,15 +87,15 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
         </View>
         <View style={styles.profileContainer}>
           <View style={styles.profileContentContainer}>
-            <Text style={styles.profileContentCount}>21</Text>
+            <Text style={styles.profileContentCount}>{waveCount}</Text>
             <Text style={styles.profileContentTitle}>파도</Text>
           </View>
           <View style={styles.profileContentContainer}>
-            <Text style={styles.profileContentCount}>37</Text>
+            <Text style={styles.profileContentCount}>{followerCount}</Text>
             <Text style={styles.profileContentTitle}>팔로워</Text>
           </View>
           <View style={styles.profileContentContainer}>
-            <Text style={styles.profileContentCount}>35</Text>
+            <Text style={styles.profileContentCount}>{followingCount}</Text>
             <Text style={styles.profileContentTitle}>팔로잉</Text>
           </View>
         </View>
@@ -104,5 +105,6 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
 }
 
 export default inject<Stores, WavesHeaderProps, WavesHeaderInjectProps>((stores) => ({
+  sessionUserUid: stores.sessionStore.user!.uid,
   userStore: stores.userStore,
 }))(observer(WavesHeader));
