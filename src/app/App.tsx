@@ -12,13 +12,24 @@ import AppNavigation from '../navigation/AppNavigation';
 class App extends React.Component {
   private handleAuthStateChanged = async (user: RNFirebase.User) => {
     if (!user) {
+      const sessionUser = stores.sessionStore.user;
+
+      if (sessionUser) {
+        firebase.database.unsubscribeUser(sessionUser.uid, this.setUser);
+        stores.sessionStore.setUser(undefined);
+      }
+
       return;
     }
 
-    const storedUser = await firebase.database.getUser(user.uid);
+    firebase.database.subscribeUser(user.uid, this.setUser);
+  }
 
-    stores.sessionStore.setUser(storedUser);
-    stores.userStore.setUser(storedUser);
+  private setUser = (snapshot: RNFirebase.database.DataSnapshot) => {
+    const user: Types.User = snapshot.val();
+
+    stores.sessionStore.setUser(user);
+    stores.userStore.setUser(user);
   }
 
   public componentDidMount() {
