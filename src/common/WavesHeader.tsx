@@ -2,7 +2,7 @@ import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-import { Stores } from '../common';
+import { Stores, Types } from '../common';
 import { feelingColors, typography } from '../styles';
 import UserStore from "../user/UserStore";
 
@@ -68,6 +68,23 @@ type WavesHeaderProps =
   WavesHeaderOwnProps;
 
 class WavesHeader extends React.Component<WavesHeaderProps> {
+  private get feelingBackgroundColor() {
+    if (!this.user || !this.user.feelingCounts) {
+      return { backgroundColor: 'gray' };
+    }
+
+    const { feelingCounts } = this.user;
+    const feelings = Object.keys(feelingCounts) as Types.FeelingTypes[];
+
+    const feeling = feelings.reduce(
+      (result, currentFeeling) =>
+        (feelingCounts[currentFeeling]! > feelingCounts[result]!) ? currentFeeling : result,
+      feelings[0],
+    );
+
+    return { backgroundColor: feelingColors[feeling] };
+  }
+
   private get user() {
     const { uid, userStore } = this.props;
 
@@ -87,7 +104,7 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
 
     return (
       <View style={styles.container}>
-        <View style={[styles.feelingContainer, { backgroundColor: feelingColors.happy }]} />
+        <View style={[styles.feelingContainer, this.feelingBackgroundColor]} />
         <View style={styles.profileImageContainer}>
           <Image source={{ uri: profileImageURL }} style={styles.profileImage} />
         </View>
