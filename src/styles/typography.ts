@@ -1,7 +1,7 @@
 export default {
-  fontSizeExtraSmall: 9,
-  fontSizeSmall: 12,
-  fontSizeMedium: 16,
-  fontSizeLarge: 21,
-  fontSizeExtraLarge: 28,
+  fontSizeExtraSmall: 8,
+  fontSizeSmall: 11,
+  fontSizeMedium: 14,
+  fontSizeLarge: 19,
+  fontSizeExtraLarge: 25,
 }

@@ -13,11 +13,12 @@ import UserStore from "../user/UserStore";
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'whitesmoke',
-    borderRadius: 4,
     display: 'flex',
-    marginHorizontal: 8,
-    marginTop: 8,
-    padding: 8,
+    marginTop: 12,
+    padding: 12,
+  },
+  content: {
+    fontSize: typography.fontSizeMedium,
   },
   feeling: {
     color: 'whitesmoke',
@@ -26,23 +27,19 @@ const styles = StyleSheet.create({
   },
   feelingContainer: {
     alignItems: 'center',
-    borderRadius: 2,
+    borderRadius: 1,
     justifyContent: 'center',
     paddingVertical: 4,
     width: 50,
   },
   headerContainer: {
-    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5,
+    marginBottom: 8,
   },
   profileContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
-  },
-  profileContentContainer: {
-    justifyContent: 'space-between',
-    marginLeft: 10,
   },
   profileImage: {
     flex: 1,
@@ -50,16 +47,19 @@ const styles = StyleSheet.create({
   profileImageContainer: {
     backgroundColor: 'lightgray',
     borderRadius: 20,
-    height: 40,
+    height: 24,
     overflow: 'hidden',
-    width: 40,
+    width: 24,
   },
   profileName: {
     fontSize: typography.fontSizeMedium,
     fontWeight: 'bold',
+    marginLeft: 8,
   },
   publishedDate: {
+    color: 'lightgray',
     fontSize: typography.fontSizeSmall,
+    marginTop: 8,
   },
 });
 
@@ -107,14 +107,9 @@ class Wave extends React.Component<WaveProps> {
           <View style={styles.profileImageContainer}>
             {this.renderProfileImage()}
           </View>
-          <View style={styles.profileContentContainer}>
-            <Text style={styles.profileName}>
-              {userName}
-            </Text>
-            <Text style={styles.publishedDate}>
-              {this.publishedDate}
-            </Text>
-          </View>
+          <Text style={styles.profileName}>
+            {userName}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -157,8 +152,11 @@ class Wave extends React.Component<WaveProps> {
             </Text>
           </View>
         </View>
-        <Text>
+        <Text style={styles.content}>
           {wave.content}
+        </Text>
+        <Text style={styles.publishedDate}>
+          {this.publishedDate}
         </Text>
       </View>
     );

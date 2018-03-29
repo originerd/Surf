@@ -15,9 +15,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
   },
-  contentContainer: {
-    paddingBottom: 8,
-  },
 });
 
 interface WavesProps {
@@ -42,7 +39,6 @@ class Waves extends React.Component<WavesProps> {
 
     return (
       <FlatList
-        contentContainerStyle={styles.contentContainer}
         data={waves}
         keyExtractor={this.keyExtractor}
         ListHeaderComponent={this.renderHeader}
