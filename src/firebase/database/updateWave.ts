@@ -14,21 +14,34 @@ export const updateWave = (uid: string, wave: Types.WaveSpecification) => {
     waveID,
   };
 
+  const { feeling } = data;
+
   const updates = {
-    [`feelings/${data.feeling}/${waveID}`]: data,
-    [`likeCounts/${waveID}`]: 0,
+    [`feelings/${feeling}/${waveID}`]: data,
     [`ocean/${waveID}`]: data,
+    [`sympathyCounts/${waveID}`]: 0,
     [`timeline/${uid}/${waveID}`]: data,
     [`waves/${uid}/${waveID}`]: data,
   };
 
   const updateWavePromise = firebase.database().ref().update(updates);
-  const updateUserWaveCountPromise = firebase.database().ref(`users/${uid}/waveCount`).transaction((waveCount) => waveCount + 1);
+  const updateUserWaveCountsPromise = firebase.database().ref(`users/${uid}`).transaction((user: Types.User) => {
+    const { feelingCounts } = user;
+
+    return {
+      ...user,
+      feelingCounts: {
+        ...feelingCounts,
+        [feeling]: (feelingCounts && feelingCounts[feeling] || 0) + 1,
+      },
+      waveCount: user.waveCount + 1,
+    };
+  });
   const updateWaveCountsTotalPromise = firebase.database().ref("waveCounts/total").transaction((waveCount) => (waveCount || 0) + 1);
-  const updateWaveCountsFeelingPromise = firebase.database().ref(`waveCounts/${data.feeling}`).transaction((waveCount) => (waveCount || 0) + 1);
+  const updateWaveCountsFeelingPromise = firebase.database().ref(`waveCounts/${feeling}`).transaction((waveCount) => (waveCount || 0) + 1);
 
   return Promise.all([
-    updateUserWaveCountPromise,
+    updateUserWaveCountsPromise,
     updateWaveCountsFeelingPromise,
     updateWaveCountsTotalPromise,
     updateWavePromise,
