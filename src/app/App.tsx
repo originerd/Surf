@@ -16,11 +16,19 @@ class App extends React.Component {
     stores.sessionStore.replaceFollowerUIDs(Object.keys(followerUIDs));
   }
 
+  private replaceFollowingUIDs = (snapshot: RNFirebase.database.DataSnapshot) => {
+    const followingUIDs: { [uid in string]: string } = snapshot.val() || {};
+
+    stores.sessionStore.replaceFollowingUIDs(Object.keys(followingUIDs));
+  }
+
   private handleAuthStateChanged = async (user: RNFirebase.User) => {
     if (!user) {
       const sessionUser = stores.sessionStore.user;
 
       if (sessionUser) {
+        firebase.database.unsubscribeFollowers(sessionUser.uid, this.replaceFollowerUIDs);
+        firebase.database.unsubscribeFollowings(sessionUser.uid, this.replaceFollowingUIDs);
         firebase.database.unsubscribeUser(sessionUser.uid, this.setUser);
         stores.sessionStore.setUser(undefined);
       }
@@ -29,6 +37,7 @@ class App extends React.Component {
     }
 
     firebase.database.subscribeFollowers(user.uid, this.replaceFollowerUIDs);
+    firebase.database.subscribeFollowings(user.uid, this.replaceFollowingUIDs);
     firebase.database.subscribeUser(user.uid, this.setUser);
   }
 
