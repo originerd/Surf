@@ -12,6 +12,7 @@ import { NavigationScreenProp } from 'react-navigation';
 
 import { Stores, Types } from '../common';
 import firebase from '../firebase';
+import SessionStore from "../session/SessonStore";
 import { colors, typography } from '../styles';
 import FeelingButtons from './FeelingButtons';
 import WriteStore from './WriteStore';
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
 });
 
 interface WriteInjectProps {
-  user: Types.User;
+  sessionStore: SessionStore;
   writeStore: WriteStore;
 }
 
@@ -58,9 +59,20 @@ interface WriteOwnProps {
 type WriteProps = WriteInjectProps & WriteOwnProps;
 
 class Write extends React.Component<WriteProps> {
-  private write = async () => {
-    const { navigation, user, writeStore } = this.props;
+  private get buttonDisabled() {
+    const { sessionStore, writeStore } = this.props;
 
+    return !sessionStore.hasFollowerUIDsLoaded || !writeStore.feeling;
+  }
+
+  private get user() {
+    return this.props.sessionStore.user!;
+  }
+
+  private write = async () => {
+    const { navigation, sessionStore, writeStore } = this.props;
+
+    const { followerUIDs } = sessionStore;
     const { content, feeling } = writeStore;
 
     if (!feeling) {
@@ -68,7 +80,11 @@ class Write extends React.Component<WriteProps> {
     }
 
     try {
-      await firebase.database.updateWave(user.uid, { content, feeling });
+      await firebase.database.updateWave(
+        this.user.uid,
+        followerUIDs,
+        { content, feeling },
+      );
 
       writeStore.reset();
 
@@ -79,16 +95,16 @@ class Write extends React.Component<WriteProps> {
   }
 
   public render() {
-    const { user, writeStore } = this.props;
+    const { sessionStore, writeStore } = this.props;
 
     return (
       <View style={styles.container}>
         <View style={styles.profileContainer}>
           <Image
-            source={{ uri: user.profileImageURL }}
+            source={{ uri: this.user.profileImageURL }}
             style={styles.profileImage}
           />
-          <Text style={styles.profileName}>{user.name}</Text>
+          <Text style={styles.profileName}>{this.user.name}</Text>
         </View>
         <FeelingButtons />
         <TextInput
@@ -110,6 +126,6 @@ class Write extends React.Component<WriteProps> {
 }
 
 export default inject((stores: Stores): WriteInjectProps => ({
-  user: stores.sessionStore.user!,
+  sessionStore: stores.sessionStore,
   writeStore: stores.writeStore,
 }))(observer(Write));

@@ -2,7 +2,7 @@ import firebase from 'react-native-firebase';
 
 import { Types } from '../../common';
 
-export const updateWave = (uid: string, wave: Types.WaveSpecification) => {
+export const updateWave = (uid: string, followerUIDs: string[], wave: Types.WaveSpecification) => {
   const now = Date.now();
 
   const waveID = firebase.database().ref().child('waves').push().key as string;
@@ -23,6 +23,10 @@ export const updateWave = (uid: string, wave: Types.WaveSpecification) => {
     [`timeline/${uid}/${waveID}`]: data,
     [`waves/${uid}/${waveID}`]: data,
   };
+
+  followerUIDs.forEach((followerUID) => {
+    updates[`timeline/${followerUID}/${waveID}`] = data;
+  });
 
   const updateWavePromise = firebase.database().ref().update(updates);
   const updateUserWaveCountsPromise = firebase.database().ref(`users/${uid}`).transaction((user: Types.User) => {
