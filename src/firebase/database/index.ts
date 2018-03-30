@@ -1,3 +1,4 @@
+export * from './follow';
 export * from './getUser';
 export * from './subscribeFeelings';
 export * from './subscribeFollowers';
@@ -6,6 +7,7 @@ export * from './subscribeOcean';
 export * from './subscribeTimeline';
 export * from './subscribeUser';
 export * from './subscribeWaves';
+export * from './unfollow';
 export * from './unsubscribeFollowers';
 export * from './unsubscribeFollowings';
 export * from './unsubscribeUser';
