@@ -10,6 +10,12 @@ import AppNavigation from '../navigation/AppNavigation';
 
 @observer
 class App extends React.Component {
+  private replaceFollowerUIDs = (snapshot: RNFirebase.database.DataSnapshot) => {
+    const followerUIDs: { [uid in string]: string } = snapshot.val() || {};
+
+    stores.sessionStore.replaceFollowerUIDs(Object.keys(followerUIDs));
+  }
+
   private handleAuthStateChanged = async (user: RNFirebase.User) => {
     if (!user) {
       const sessionUser = stores.sessionStore.user;
@@ -22,6 +28,7 @@ class App extends React.Component {
       return;
     }
 
+    firebase.database.subscribeFollowers(user.uid, this.replaceFollowerUIDs);
     firebase.database.subscribeUser(user.uid, this.setUser);
   }
 
