@@ -7,8 +7,9 @@ import {
 } from 'react-native';
 
 import { Types } from '../common';
+import EmptyWaves from './EmptyWaves';
 import Wave from './Wave';
-import WavesHeader from "./WavesHeader";
+import WavesHeader from './WavesHeader';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,6 +37,10 @@ class Waves extends React.Component<WavesProps> {
 
   public render() {
     const { waves } = this.props;
+
+    if (waves.length === 0) {
+      return <EmptyWaves />;
+    }
 
     return (
       <FlatList
