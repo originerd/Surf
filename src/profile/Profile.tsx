@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
 
 interface ProfileInjectProps {
   profileStore: ProfileStore;
+  userStore: UserStore;
   sessionUserUID: string;
 }
 
@@ -31,6 +32,19 @@ type ProfileProps =
   ProfileOwnProps;
 
 class Profile extends React.Component<ProfileProps> {
+  private subscribeUser = () => {
+    const { userStore } = this.props;
+
+    if (!userStore.referenceCountsByUId.get(this.uid)) {
+      firebase.database.subscribeUser(
+        this.uid,
+        this.subscribeUserHandler,
+      );
+    }
+
+    userStore.increaseReferenceCount(this.uid);
+  }
+
   private subscribeWaves = () => {
     const { profileStore } = this.props;
 
@@ -42,6 +56,13 @@ class Profile extends React.Component<ProfileProps> {
     }
 
     profileStore.increaseReferenceCount(this.uid);
+  }
+
+  private subscribeUserHandler = (snapshot: RNFirebase.database.DataSnapshot) => {
+    const { userStore } = this.props;
+    const user: Types.User = snapshot.val();
+
+    userStore.users.set(this.uid, user);
   }
 
   private subscribeWavesHandler = (snapshot: RNFirebase.database.DataSnapshot) => {
@@ -58,8 +79,22 @@ class Profile extends React.Component<ProfileProps> {
     return (params && params.uid) || sessionUserUID;
   }
 
+  private unsubscribeUser = () => {
+    const { navigation, userStore } = this.props;
+    const { params } = navigation.state;
+
+    userStore.decreseReferenceCount(this.uid);
+
+    if (!userStore.referenceCountsByUId.get(this.uid)) {
+      firebase.database.unsubscribeUser(
+        this.uid,
+        this.subscribeUserHandler,
+      );
+    }
+  }
+
   private unsubscribeWaves = () => {
-    const { navigation, profileStore, sessionUserUID } = this.props;
+    const { navigation, profileStore } = this.props;
     const { params } = navigation.state;
 
     profileStore.decreseReferenceCount(this.uid);
@@ -75,10 +110,12 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   public componentWillMount() {
+    this.subscribeUser();
     this.subscribeWaves();
   }
 
   public componentWillUnmount() {
+    this.unsubscribeUser();
     this.unsubscribeWaves();
   }
 
@@ -101,5 +138,6 @@ class Profile extends React.Component<ProfileProps> {
 
 export default inject((stores: Stores, props: ProfileProps): ProfileInjectProps => ({
   profileStore: stores.profileStore,
+  userStore: stores.userStore,
   sessionUserUID: stores.sessionStore.user!.uid,
 }))(observer(Profile));

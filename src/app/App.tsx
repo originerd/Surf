@@ -45,7 +45,6 @@ class App extends React.Component {
     const user: Types.User = snapshot.val();
 
     stores.sessionStore.setUser(user);
-    stores.userStore.setUser(user);
   }
 
   public componentDidMount() {
