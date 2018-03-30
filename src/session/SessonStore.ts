@@ -4,6 +4,7 @@ import { Types }  from '../common';
 
 class SessionStore {
   public followerUIDs = observable<string>([]);
+  public followingUIDs = observable<string>([]);
   @observable public hasAuthChecked: boolean = false;
   @observable public hasFollowerUIDsLoaded: boolean = false;
   @observable public user?: Types.User;
@@ -11,6 +12,10 @@ class SessionStore {
   @action replaceFollowerUIDs = (followerUIDs: string[]) => {
     this.followerUIDs.replace(followerUIDs);
     this.hasFollowerUIDsLoaded = true;
+  }
+
+  @action replaceFollowingUIDs = (followingUIDs: string[]) => {
+    this.followingUIDs.replace(followingUIDs);
   }
 
   @action setHasAuthChecked = (hasAuthChecked: boolean) => {
