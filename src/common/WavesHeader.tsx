@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 });
 
 interface WavesHeaderInjectProps {
-  sessionUserUid: string;
+  sessionUserUID: string;
   userStore: UserStore;
 }
 
@@ -128,6 +128,6 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
 }
 
 export default inject<Stores, WavesHeaderProps, WavesHeaderInjectProps>((stores) => ({
-  sessionUserUid: stores.sessionStore.user!.uid,
+  sessionUserUID: stores.sessionStore.user!.uid,
   userStore: stores.userStore,
 }))(observer(WavesHeader));
