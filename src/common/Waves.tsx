@@ -1,9 +1,11 @@
 import { observer } from 'mobx-react/native';
 import * as React from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
+  View,
 } from 'react-native';
 
 import { Types } from '../common';
@@ -16,9 +18,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
   },
+  footerContainer: {
+    padding: 12,
+  },
 });
 
 interface WavesProps {
+  getMoreWaves: () => void;
+  isLoadingWaves?: boolean;
   uid?: string;
   waves: Types.Wave[];
 }
@@ -26,6 +33,20 @@ interface WavesProps {
 @observer
 class Waves extends React.Component<WavesProps> {
   private keyExtractor = (wave: Types.Wave) => wave.waveID
+
+  private renderFooter = () => {
+    const { isLoadingWaves, uid } = this.props;
+
+    if (!isLoadingWaves) {
+      return <View />;
+    }
+
+    return (
+      <View style={styles.footerContainer}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   private renderHeader = () => {
     const { uid } = this.props;
@@ -36,7 +57,7 @@ class Waves extends React.Component<WavesProps> {
   private renderWave = ({ item }: ListRenderItemInfo<Types.Wave>) => <Wave wave={item} />
 
   public render() {
-    const { waves } = this.props;
+    const { getMoreWaves, isLoadingWaves, waves } = this.props;
 
     if (waves.length === 0) {
       return <EmptyWaves />;
@@ -46,7 +67,10 @@ class Waves extends React.Component<WavesProps> {
       <FlatList
         data={waves}
         keyExtractor={this.keyExtractor}
+        ListFooterComponent={this.renderFooter}
         ListHeaderComponent={this.renderHeader}
+        onEndReached={getMoreWaves}
+        refreshing={isLoadingWaves}
         renderItem={this.renderWave}
         style={styles.container}
       />

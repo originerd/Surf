@@ -10,7 +10,7 @@ export const getWaves = async (uid: string, endAt?: string, limit: number = 20):
     wavesRef = wavesRef.endAt(getEndAtKey(endAt));
   }
 
-  const data = (await wavesRef.limitToLast(limit).once('value')).val();
+  const data = (await wavesRef.limitToLast(limit).once('value')).val() || {};
 
   return Object.keys(data).map((key) => data[key]);
 };

@@ -32,13 +32,27 @@ type ProfileProps =
   ProfileOwnProps;
 
 class Profile extends React.Component<ProfileProps> {
-  private getWaves = async () => {
-    const { uid } = this;
+  private getWaves = async (isMore?: boolean) => {
+    const { uid, waves } = this;
     const { profileStore } = this.props;
 
-    const waves = await firebase.database.getWaves(uid);
+    if (profileStore.loadedAllWavesByUID.get(uid) || profileStore.loadingWavesByUID.get(uid)) {
+      return;
+    }
 
-    profileStore.appendWaves(uid, waves)
+    const lastWave = waves[waves.length - 1];
+    const endAt = isMore && lastWave && lastWave.waveID || undefined;
+
+    profileStore.setLoadingWaves(uid, true);
+
+    const loadedWaves = await firebase.database.getWaves(uid, endAt);
+    profileStore.appendWaves(uid, loadedWaves)
+
+    if (loadedWaves.length === 0) {
+      profileStore.setLoadedAllWaves(uid);
+    }
+
+    profileStore.setLoadingWaves(uid, false);
   }
 
   private subscribeUser = () => {
@@ -63,11 +77,11 @@ class Profile extends React.Component<ProfileProps> {
 
       const waves = this.waves;
       const firstWave = waves[0];
-      const firstKey = firstWave && firstWave.waveID || undefined;
+      const startAt = firstWave && firstWave.waveID || undefined;
 
       firebase.database.subscribeWaves(
         this.uid,
-        firstKey,
+        startAt,
         this.subscribeWavesHandler,
       );
     }
@@ -153,6 +167,8 @@ class Profile extends React.Component<ProfileProps> {
     return (
       <View style={styles.container}>
         <Waves
+          getMoreWaves={() => this.getWaves(true)}
+          isLoadingWaves={profileStore.loadingWavesByUID.get(uid)}
           uid={uid}
           waves={waves}
         />

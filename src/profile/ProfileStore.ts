@@ -3,6 +3,8 @@ import { action, observable } from 'mobx';
 import { Types }  from '../common';
 
 class ProfileStore {
+  @observable public loadedAllWavesByUID: Map<string, boolean> = new Map();
+  @observable public loadingWavesByUID: Map<string, boolean> = new Map();
   @observable public referenceCountsByUId: Map<string, number> = new Map();
   @observable public wavesByUID: Map<string, Types.Wave[]> = new Map();
 
@@ -36,6 +38,18 @@ class ProfileStore {
     }
 
     this.wavesByUID.get(uid)!.unshift(wave);
+  }
+
+  @action public setLoadedAllWaves = (uid: string) => {
+    this.loadedAllWavesByUID.set(uid, true);
+  }
+
+  @action public setLoadingWaves = (uid: string, isLoading: boolean) => {
+    if (isLoading) {
+      this.loadingWavesByUID.set(uid, true);
+    } else {
+      this.loadingWavesByUID.delete(uid);
+    }
   }
 }
 
