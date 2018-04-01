@@ -32,25 +32,42 @@ type ProfileProps =
   ProfileOwnProps;
 
 class Profile extends React.Component<ProfileProps> {
+  private getWaves = async () => {
+    const { uid } = this;
+    const { profileStore } = this.props;
+
+    const waves = await firebase.database.getWaves(uid);
+
+    profileStore.appendWaves(uid, waves)
+  }
+
   private subscribeUser = () => {
+    const { uid } = this;
     const { userStore } = this.props;
 
-    if (!userStore.referenceCountsByUId.get(this.uid)) {
+    if (!userStore.referenceCountsByUId.get(uid)) {
       firebase.database.subscribeUser(
-        this.uid,
+        uid,
         this.subscribeUserHandler,
       );
     }
 
-    userStore.increaseReferenceCount(this.uid);
+    userStore.increaseReferenceCount(uid);
   }
 
-  private subscribeWaves = () => {
+  private subscribeWaves = async () => {
     const { profileStore } = this.props;
 
     if (!profileStore.referenceCountsByUId.get(this.uid)) {
+      await this.getWaves();
+
+      const waves = this.waves;
+      const firstWave = waves[0];
+      const firstKey = firstWave && firstWave.waveID || undefined;
+
       firebase.database.subscribeWaves(
         this.uid,
+        firstKey,
         this.subscribeWavesHandler,
       );
     }
@@ -80,38 +97,46 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   private unsubscribeUser = () => {
+    const { uid } = this;
     const { navigation, userStore } = this.props;
     const { params } = navigation.state;
 
-    userStore.decreseReferenceCount(this.uid);
+    userStore.decreseReferenceCount(uid);
 
-    if (!userStore.referenceCountsByUId.get(this.uid)) {
+    if (!userStore.referenceCountsByUId.get(uid)) {
       firebase.database.unsubscribeUser(
-        this.uid,
+        uid,
         this.subscribeUserHandler,
       );
     }
   }
 
   private unsubscribeWaves = () => {
+    const { uid } = this;
     const { navigation, profileStore } = this.props;
     const { params } = navigation.state;
 
-    profileStore.decreseReferenceCount(this.uid);
+    profileStore.decreseReferenceCount(uid);
 
-    if (!profileStore.referenceCountsByUId.get(this.uid)) {
+    if (!profileStore.referenceCountsByUId.get(uid)) {
       firebase.database.unsubscribeWaves(
-        this.uid,
+        uid,
         this.subscribeWavesHandler,
       );
 
-      profileStore.deleteWaves(this.uid);
+      profileStore.deleteWaves(uid);
     }
   }
 
-  public componentWillMount() {
+  private get waves() {
+    const { profileStore } = this.props;
+
+    return profileStore.wavesByUID.get(this.uid) || [];
+  }
+
+  public async componentWillMount() {
     this.subscribeUser();
-    this.subscribeWaves();
+    await this.subscribeWaves();
   }
 
   public componentWillUnmount() {
@@ -120,15 +145,15 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   public render() {
-    const { navigation } = this.props;
-    const { wavesByUID } = this.props.profileStore;
+    const { uid } = this;
+    const { navigation, profileStore } = this.props;
 
-    const waves = wavesByUID.get(this.uid) || [];
+    const waves = profileStore.wavesByUID.get(uid) || [];
 
     return (
       <View style={styles.container}>
         <Waves
-          uid={this.uid}
+          uid={uid}
           waves={waves}
         />
       </View>

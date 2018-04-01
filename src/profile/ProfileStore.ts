@@ -6,6 +6,14 @@ class ProfileStore {
   @observable public referenceCountsByUId: Map<string, number> = new Map();
   @observable public wavesByUID: Map<string, Types.Wave[]> = new Map();
 
+  @action public appendWaves = (uid: string, waves: Types.Wave[]) => {
+    if (!this.wavesByUID.get(uid)) {
+      this.wavesByUID.set(uid, []);
+    }
+
+    this.wavesByUID.get(uid)!.push(...waves);
+  }
+
   @action public decreseReferenceCount = (uid: string) => {
     const count = this.referenceCountsByUId.get(uid) || 0;
 
