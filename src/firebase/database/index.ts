@@ -1,5 +1,6 @@
 export * from './follow';
 export * from './getUser';
+export * from './getWaves';
 export * from './subscribeFeelings';
 export * from './subscribeFollowers';
 export * from './subscribeFollowings';
