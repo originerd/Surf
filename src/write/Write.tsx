@@ -60,9 +60,10 @@ type WriteProps = WriteInjectProps & WriteOwnProps;
 
 class Write extends React.Component<WriteProps> {
   private get buttonDisabled() {
-    const { sessionStore, writeStore } = this.props;
+    const { hasFollowerUIDsLoaded } = this.props.sessionStore;
+    const { feeling, writing } = this.props.writeStore;
 
-    return !sessionStore.hasFollowerUIDsLoaded || !writeStore.feeling;
+    return !hasFollowerUIDsLoaded || !feeling || writing;
   }
 
   private get user() {
@@ -73,11 +74,13 @@ class Write extends React.Component<WriteProps> {
     const { navigation, sessionStore, writeStore } = this.props;
 
     const { followerUIDs } = sessionStore;
-    const { content, feeling } = writeStore;
+    const { content, feeling, setWriting, writing } = writeStore;
 
-    if (!feeling) {
+    if (!feeling || writing) {
       return;
     }
+
+    setWriting(true);
 
     try {
       await firebase.database.updateWave(
@@ -91,6 +94,8 @@ class Write extends React.Component<WriteProps> {
       navigation.goBack();
     } catch {
       // do nothing
+    } finally {
+      setWriting(false);
     }
   }
 
