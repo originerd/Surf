@@ -70,6 +70,7 @@ class Waves extends React.Component<WavesProps> {
         ListFooterComponent={this.renderFooter}
         ListHeaderComponent={this.renderHeader}
         onEndReached={getMoreWaves}
+        onEndReachedThreshold={1}
         refreshing={isLoadingWaves}
         renderItem={this.renderWave}
         style={styles.container}
