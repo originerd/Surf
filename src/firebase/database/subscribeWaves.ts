@@ -3,12 +3,12 @@ import firebase, { RNFirebase } from 'react-native-firebase';
 import { Types } from '../../common';
 import { getStartAtKey } from './keys';
 
-export const subscribeWaves = async (uid: string, startAt: string | undefined, handler: (snapshot: RNFirebase.database.DataSnapshot) => void) => {
-  let wavesRef = firebase.database().ref(`waves/${uid}`).orderByKey();
+export const subscribeWaves = async (path: string, startAt: string | undefined, handler: (snapshot: RNFirebase.database.DataSnapshot) => void) => {
+  let timelineRef = firebase.database().ref(path).orderByKey();
 
   if (startAt) {
-    wavesRef = wavesRef.startAt(getStartAtKey(startAt));
+    timelineRef = timelineRef.startAt(getStartAtKey(startAt));
   }
 
-  wavesRef.on('child_added', handler);
+  timelineRef.on('child_added', handler);
 };
