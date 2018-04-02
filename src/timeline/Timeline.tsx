@@ -56,10 +56,12 @@ class Timeline extends React.Component<TimelineProps> {
   }
 
   private subscribeTimeline = async () => {
-    const { waves } = this.props.timelineStore;
     const { uid } = this.props.user;
 
     await this.getTimeline();
+
+    // should get waves after getTimeline function call has been finished
+    const { waves } = this.props.timelineStore;
 
     const firstWave = waves.length > 0 && waves[0];
     const startAt = firstWave && firstWave.waveID || undefined;

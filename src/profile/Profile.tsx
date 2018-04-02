@@ -49,7 +49,7 @@ class Profile extends React.Component<ProfileProps> {
       { path: firebase.database.PathTypes.waves, uid, feeling: 'total' },
       endAt,
     );
-    profileStore.appendWaves(uid, loadedWaves)
+    profileStore.appendWaves(uid, loadedWaves);
 
     if (loadedWaves.length === 0) {
       profileStore.setLoadedAllWaves(uid);
@@ -73,11 +73,14 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   private subscribeWaves = async () => {
-    const { uid, waves } = this;
+    const { uid } = this;
     const { profileStore } = this.props;
 
     if (!profileStore.referenceCountsByUId.get(this.uid)) {
       await this.getWaves();
+
+      // should get waves after getTimeline function call has been finished
+      const { waves } = this;
 
       const firstWave = waves.length > 0 && waves[0];
       const startAt = firstWave && firstWave.waveID || undefined;

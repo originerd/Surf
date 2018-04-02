@@ -56,9 +56,10 @@ class Ocean extends React.Component<OceanProps> {
   }
 
   private subscribeOcean = async () => {
-    const { waves } = this.props.oceanStore;
-
     await this.getOcean();
+
+    // should get waves after getTimeline function call has been finished
+    const { waves } = this.props.oceanStore;
 
     const firstWave = waves.length > 0 && waves[0];
     const startAt = firstWave && firstWave.waveID || undefined;
