@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
 interface WavesProps {
   getMoreWaves: () => void;
-  isLoadingWaves?: boolean;
+  loadingWaves?: boolean;
   uid?: string;
   waves: Types.Wave[];
 }
@@ -35,9 +35,9 @@ class Waves extends React.Component<WavesProps> {
   private keyExtractor = (wave: Types.Wave) => wave.waveID
 
   private renderFooter = () => {
-    const { isLoadingWaves, uid } = this.props;
+    const { loadingWaves, uid } = this.props;
 
-    if (!isLoadingWaves) {
+    if (!loadingWaves) {
       return <View />;
     }
 
@@ -57,21 +57,27 @@ class Waves extends React.Component<WavesProps> {
   private renderWave = ({ item }: ListRenderItemInfo<Types.Wave>) => <Wave wave={item} />
 
   public render() {
-    const { getMoreWaves, isLoadingWaves, waves } = this.props;
+    const { getMoreWaves, loadingWaves, waves } = this.props;
 
     if (waves.length === 0) {
-      return <EmptyWaves />;
+      return (
+        <View style={styles.container}>
+          {this.renderHeader()}
+          <EmptyWaves />
+        </View>
+      );
     }
 
     return (
       <FlatList
+        contentContainerStyle={{ display: 'flex' }}
         data={waves}
         keyExtractor={this.keyExtractor}
         ListFooterComponent={this.renderFooter}
         ListHeaderComponent={this.renderHeader}
         onEndReached={getMoreWaves}
         onEndReachedThreshold={1}
-        refreshing={isLoadingWaves}
+        refreshing={loadingWaves}
         renderItem={this.renderWave}
         style={styles.container}
       />

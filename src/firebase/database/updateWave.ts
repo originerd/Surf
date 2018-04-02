@@ -1,6 +1,7 @@
 import firebase from 'react-native-firebase';
 
 import { Types } from '../../common';
+import { getPath, PathTypes } from './getPath';
 
 export const updateWave = (uid: string, followerUIDs: string[], wave: Types.WaveSpecification) => {
   const now = Date.now();
@@ -17,19 +18,20 @@ export const updateWave = (uid: string, followerUIDs: string[], wave: Types.Wave
   const { feeling } = data;
 
   const updates = {
-    [`feelings/${feeling}/${waveID}`]: data,
-    [`ocean/${waveID}`]: data,
-    [`sympathyCounts/${waveID}`]: 0,
-    [`timeline/${uid}/${waveID}`]: data,
-    [`waves/${uid}/${waveID}`]: data,
+    [`${getPath({ path: PathTypes.ocean, feeling })}/${waveID}`]: data,
+    [`${getPath({ path: PathTypes.ocean, feeling: 'total' })}/${waveID}`]: data,
+    [`${getPath({ path: PathTypes.sympathyCounts })}/${waveID}`]: 0,
+    [`${getPath({ path: PathTypes.timeline, uid })}/${waveID}`]: data,
+    [`${getPath({ path: PathTypes.waves, uid, feeling })}/${waveID}`]: data,
+    [`${getPath({ path: PathTypes.waves, uid, feeling: 'total' })}/${waveID}`]: data,
   };
 
   followerUIDs.forEach((followerUID) => {
-    updates[`timeline/${followerUID}/${waveID}`] = data;
+    updates[`${getPath({ path: PathTypes.timeline, uid: followerUID })}/${waveID}`] = data;
   });
 
   const updateWavePromise = firebase.database().ref().update(updates);
-  const updateUserWaveCountsPromise = firebase.database().ref(`users/${uid}`).transaction((user: Types.User) => {
+  const updateUserWaveCountsPromise = firebase.database().ref(getPath({ path: PathTypes.users, uid})).transaction((user: Types.User) => {
     const { feelingCounts } = user;
 
     return {
@@ -41,8 +43,8 @@ export const updateWave = (uid: string, followerUIDs: string[], wave: Types.Wave
       waveCount: user.waveCount + 1,
     };
   });
-  const updateWaveCountsTotalPromise = firebase.database().ref("waveCounts/total").transaction((waveCount) => (waveCount || 0) + 1);
-  const updateWaveCountsFeelingPromise = firebase.database().ref(`waveCounts/${feeling}`).transaction((waveCount) => (waveCount || 0) + 1);
+  const updateWaveCountsFeelingPromise = firebase.database().ref(getPath({ path: PathTypes.waveCounts, feeling })).transaction((waveCount) => (waveCount || 0) + 1);
+  const updateWaveCountsTotalPromise = firebase.database().ref(getPath({ path: PathTypes.waveCounts, feeling: 'total' })).transaction((waveCount) => (waveCount || 0) + 1);
 
   return Promise.all([
     updateUserWaveCountsPromise,

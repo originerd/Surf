@@ -1,4 +1,5 @@
 export * from './follow';
+export * from './getPath';
 export * from './getUser';
 export * from './getWaves';
 export * from './subscribeFollowers';

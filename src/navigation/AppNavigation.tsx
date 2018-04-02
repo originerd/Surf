@@ -2,7 +2,7 @@ import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import { Text } from 'react-native';
 
-import { Loading, Stores, Types } from '../common';
+import { SplashScreen, Stores, Types } from '../common';
 import Session from '../session';
 import MainNavigation from './MainNavigation';
 
@@ -18,7 +18,7 @@ class AppNavigation extends React.Component<AppNavigationProps> {
     const { hasAuthChecked, user } = this.props;
 
     if (!hasAuthChecked) {
-      return <Loading />;
+      return <SplashScreen />;
     }
 
     if (user) {

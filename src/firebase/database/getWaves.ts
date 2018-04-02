@@ -2,9 +2,10 @@ import firebase, { RNFirebase } from 'react-native-firebase';
 
 import { Types } from '../../common';
 import { getEndAtKey } from './keys';
+import { getPath, GetWavePathParams } from './getPath';
 
-export const getWaves = async (path: string, endAt?: string, limit: number = 20): Promise<Types.Wave[]> => {
-  let wavesRef = firebase.database().ref(path).orderByKey();
+export const getWaves = async (pathParams: GetWavePathParams, endAt?: string, limit: number = 20): Promise<Types.Wave[]> => {
+  let wavesRef = firebase.database().ref(getPath(pathParams)).orderByKey();
 
   if (endAt) {
     wavesRef = wavesRef.endAt(getEndAtKey(endAt));

@@ -1,13 +1,13 @@
 import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { RNFirebase } from "react-native-firebase";
-import { NavigationScreenProp } from "react-navigation";
+import { RNFirebase } from 'react-native-firebase';
+import { NavigationScreenProp } from 'react-navigation';
 
-import { Stores, Types, Waves } from '../common';
+import { Loading, Stores, Types, Waves } from '../common';
 import firebase from '../firebase';
-import SessionStore from "../session/SessonStore";
-import UserStore from "../user/UserStore";
+import SessionStore from '../session/SessonStore';
+import UserStore from '../user/UserStore';
 import ProfileStore from './ProfileStore';
 
 const styles = StyleSheet.create({
@@ -40,13 +40,13 @@ class Profile extends React.Component<ProfileProps> {
       return;
     }
 
-    const lastWave = waves[waves.length - 1];
+    const lastWave = waves.length > 0 && waves[waves.length - 1];
     const endAt = isMore && lastWave && lastWave.waveID || undefined;
 
     profileStore.setLoadingWaves(uid, true);
 
     const loadedWaves = await firebase.database.getWaves(
-      Types.getWavePath(Types.WavePathWithUIDTypes.waves, uid),
+      { path: firebase.database.PathTypes.waves, uid, feeling: 'total' },
       endAt,
     );
     profileStore.appendWaves(uid, loadedWaves)
@@ -73,18 +73,17 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   private subscribeWaves = async () => {
-    const { uid } = this;
+    const { uid, waves } = this;
     const { profileStore } = this.props;
 
     if (!profileStore.referenceCountsByUId.get(this.uid)) {
       await this.getWaves();
 
-      const waves = this.waves;
-      const firstWave = waves[0];
+      const firstWave = waves.length > 0 && waves[0];
       const startAt = firstWave && firstWave.waveID || undefined;
 
       firebase.database.subscribeWaves(
-        Types.getWavePath(Types.WavePathWithUIDTypes.waves, uid),
+        { path: firebase.database.PathTypes.waves, uid, feeling: 'total' },
         startAt,
         this.subscribeWavesHandler,
       );
@@ -138,7 +137,7 @@ class Profile extends React.Component<ProfileProps> {
 
     if (!profileStore.referenceCountsByUId.get(uid)) {
       firebase.database.unsubscribeWaves(
-        Types.getWavePath(Types.WavePathWithUIDTypes.waves, uid),
+        { path: firebase.database.PathTypes.waves, uid, feeling: 'total' },
         this.subscribeWavesHandler,
       );
 
@@ -167,12 +166,17 @@ class Profile extends React.Component<ProfileProps> {
     const { navigation, profileStore } = this.props;
 
     const waves = profileStore.wavesByUID.get(uid) || [];
+    const loadingWaves = profileStore.loadingWavesByUID.get(uid);
+
+    if (waves.length === 0 && loadingWaves) {
+      return <Loading />;
+    }
 
     return (
       <View style={styles.container}>
         <Waves
           getMoreWaves={() => this.getWaves(true)}
-          isLoadingWaves={profileStore.loadingWavesByUID.get(uid)}
+          loadingWaves={loadingWaves}
           uid={uid}
           waves={waves}
         />

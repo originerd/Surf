@@ -1,11 +1,11 @@
 import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { RNFirebase } from 'react-native-firebase';
 
-import { Stores, Types, Waves } from '../common';
+import { Loading, Stores, Types, Waves } from '../common';
 import firebase from '../firebase';
 import OceanStore from './OceanStore';
-import { RNFirebase } from 'react-native-firebase';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,13 +37,13 @@ class Ocean extends React.Component<OceanProps> {
       return;
     }
 
-    const lastWave = waves[waves.length - 1];
+    const lastWave = waves.length > 0 && waves[waves.length - 1];
     const endAt = isMore && lastWave && lastWave.waveID || undefined;
 
     setLoadingWaves(true);
 
     const loadedWaves = await firebase.database.getWaves(
-      Types.getWavePath(Types.WavePathWithoutUIDTypes.ocean),
+      { path: firebase.database.PathTypes.ocean, feeling: 'total' },
       endAt,
     );
     appendWaves(loadedWaves)
@@ -56,15 +56,15 @@ class Ocean extends React.Component<OceanProps> {
   }
 
   private subscribeOcean = async () => {
-    const { oceanStore, user } = this.props;
+    const { waves } = this.props.oceanStore;
 
     await this.getOcean();
 
-    const firstWave = oceanStore.waves[0];
+    const firstWave = waves.length > 0 && waves[0];
     const startAt = firstWave && firstWave.waveID || undefined;
 
     firebase.database.subscribeWaves(
-      Types.getWavePath(Types.WavePathWithoutUIDTypes.ocean),
+      { path: firebase.database.PathTypes.ocean, feeling: 'total' },
       startAt,
       this.subscribeOceanHandler,
     );
@@ -84,11 +84,15 @@ class Ocean extends React.Component<OceanProps> {
   public render() {
     const { loadingWaves, waves } = this.props.oceanStore;
 
+    if (waves.length === 0 && loadingWaves) {
+      return <Loading />;
+    }
+
     return (
       <View style={styles.container}>
         <Waves
           getMoreWaves={() => this.getOcean(true)}
-          isLoadingWaves={loadingWaves}
+          loadingWaves={loadingWaves}
           waves={waves}
         />
       </View>

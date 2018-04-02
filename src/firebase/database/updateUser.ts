@@ -1,11 +1,13 @@
 import firebase from 'react-native-firebase';
 
 import { Types } from '../../common';
+import { getPath, PathTypes } from './getPath';
 
 export const updateUser = async (uid: string, user: Types.UserSpecification) => {
   const now = Date.now();
+  const path = getPath({ path: PathTypes.users, uid });
 
-  const storedUser: Types.User | {} = (await firebase.database().ref(`users/${uid}`).once('value')).val() || {};
+  const storedUser: Types.User | {} = (await firebase.database().ref(path).once('value')).val() || {};
 
   const updatedUser: Types.User = {
     // the order is important
@@ -20,6 +22,6 @@ export const updateUser = async (uid: string, user: Types.UserSpecification) => 
 
   return firebase
     .database()
-    .ref(`users/${uid}`)
+    .ref(path)
     .update(updatedUser);
 };

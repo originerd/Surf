@@ -2,7 +2,7 @@ import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Stores, Types, Waves } from '../common';
+import { Loading, Stores, Types, Waves } from '../common';
 import firebase from '../firebase';
 import TimelineStore from './TimelineStore';
 import { RNFirebase } from 'react-native-firebase';
@@ -37,13 +37,13 @@ class Timeline extends React.Component<TimelineProps> {
       return;
     }
 
-    const lastWave = waves[waves.length - 1];
+    const lastWave = waves.length > 0 && waves[waves.length - 1];
     const endAt = isMore && lastWave && lastWave.waveID || undefined;
 
     setLoadingWaves(true);
 
     const loadedWaves = await firebase.database.getWaves(
-      Types.getWavePath(Types.WavePathWithUIDTypes.timeline, uid),
+      { path: firebase.database.PathTypes.timeline, uid },
       endAt,
     );
     appendWaves(loadedWaves)
@@ -56,15 +56,16 @@ class Timeline extends React.Component<TimelineProps> {
   }
 
   private subscribeTimeline = async () => {
-    const { timelineStore, user } = this.props;
+    const { waves } = this.props.timelineStore;
+    const { uid } = this.props.user;
 
     await this.getTimeline();
 
-    const firstWave = timelineStore.waves[0];
+    const firstWave = waves.length > 0 && waves[0];
     const startAt = firstWave && firstWave.waveID || undefined;
 
     firebase.database.subscribeWaves(
-      Types.getWavePath(Types.WavePathWithUIDTypes.timeline, user.uid),
+      { path: firebase.database.PathTypes.timeline, uid },
       startAt,
       this.subscribeTimelineHandler,
     );
@@ -84,11 +85,15 @@ class Timeline extends React.Component<TimelineProps> {
   public render() {
     const { loadingWaves, waves } = this.props.timelineStore;
 
+    if (waves.length === 0 && loadingWaves) {
+      return <Loading />;
+    }
+
     return (
       <View style={styles.container}>
         <Waves
           getMoreWaves={() => this.getTimeline(true)}
-          isLoadingWaves={loadingWaves}
+          loadingWaves={loadingWaves}
           waves={waves}
         />
       </View>
