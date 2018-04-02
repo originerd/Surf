@@ -45,7 +45,10 @@ class Profile extends React.Component<ProfileProps> {
 
     profileStore.setLoadingWaves(uid, true);
 
-    const loadedWaves = await firebase.database.getWaves(uid, endAt);
+    const loadedWaves = await firebase.database.getWaves(
+      Types.getWavePath(Types.WavePathWithUIDTypes.waves, uid),
+      endAt,
+    );
     profileStore.appendWaves(uid, loadedWaves)
 
     if (loadedWaves.length === 0) {
@@ -70,6 +73,7 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   private subscribeWaves = async () => {
+    const { uid } = this;
     const { profileStore } = this.props;
 
     if (!profileStore.referenceCountsByUId.get(this.uid)) {
@@ -80,13 +84,13 @@ class Profile extends React.Component<ProfileProps> {
       const startAt = firstWave && firstWave.waveID || undefined;
 
       firebase.database.subscribeWaves(
-        this.uid,
+        Types.getWavePath(Types.WavePathWithUIDTypes.waves, uid),
         startAt,
         this.subscribeWavesHandler,
       );
     }
 
-    profileStore.increaseReferenceCount(this.uid);
+    profileStore.increaseReferenceCount(uid);
   }
 
   private subscribeUserHandler = (snapshot: RNFirebase.database.DataSnapshot) => {
@@ -134,7 +138,7 @@ class Profile extends React.Component<ProfileProps> {
 
     if (!profileStore.referenceCountsByUId.get(uid)) {
       firebase.database.unsubscribeWaves(
-        uid,
+        Types.getWavePath(Types.WavePathWithUIDTypes.waves, uid),
         this.subscribeWavesHandler,
       );
 
@@ -148,7 +152,7 @@ class Profile extends React.Component<ProfileProps> {
     return profileStore.wavesByUID.get(this.uid) || [];
   }
 
-  public async componentWillMount() {
+  public async componentDidMount() {
     this.subscribeUser();
     await this.subscribeWaves();
   }
