@@ -5,7 +5,7 @@ import { Types }  from '../common';
 class ProfileStore {
   @observable public loadedAllWavesByUID: Map<string, boolean> = new Map();
   @observable public loadingWavesByUID: Map<string, boolean> = new Map();
-  @observable public referenceCountsByUId: Map<string, number> = new Map();
+  @observable public referenceCountsByUID: Map<string, number> = new Map();
   @observable public wavesByUID: Map<string, Types.Wave[]> = new Map();
 
   @action public appendWaves = (uid: string, waves: Types.Wave[]) => {
@@ -17,9 +17,9 @@ class ProfileStore {
   }
 
   @action public decreseReferenceCount = (uid: string) => {
-    const count = this.referenceCountsByUId.get(uid) || 0;
+    const count = this.referenceCountsByUID.get(uid) || 0;
 
-    this.referenceCountsByUId.set(uid, count - 1);
+    this.referenceCountsByUID.set(uid, count - 1);
   }
 
   @action public deleteWaves = (uid: string) => {
@@ -27,9 +27,9 @@ class ProfileStore {
   }
 
   @action public increaseReferenceCount = (uid: string) => {
-    const count = this.referenceCountsByUId.get(uid) || 0;
+    const count = this.referenceCountsByUID.get(uid) || 0;
 
-    this.referenceCountsByUId.set(uid, count + 1);
+    this.referenceCountsByUID.set(uid, count + 1);
   }
 
   @action public prependWave = (uid: string, wave: Types.Wave) => {

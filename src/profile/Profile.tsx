@@ -76,7 +76,7 @@ class Profile extends React.Component<ProfileProps> {
     const { uid } = this;
     const { profileStore } = this.props;
 
-    if (!profileStore.referenceCountsByUId.get(this.uid)) {
+    if (!profileStore.referenceCountsByUID.get(this.uid)) {
       await this.getWaves();
 
       // should get waves after getTimeline function call has been finished
@@ -138,7 +138,7 @@ class Profile extends React.Component<ProfileProps> {
 
     profileStore.decreseReferenceCount(uid);
 
-    if (!profileStore.referenceCountsByUId.get(uid)) {
+    if (!profileStore.referenceCountsByUID.get(uid)) {
       firebase.database.unsubscribeWaves(
         { path: firebase.database.PathTypes.waves, uid, feeling: 'total' },
         this.subscribeWavesHandler,
