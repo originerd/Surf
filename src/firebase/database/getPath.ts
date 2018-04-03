@@ -4,6 +4,7 @@ export enum PathTypes {
   followers = 'followers',
   followings = 'followings',
   ocean = 'ocean',
+  sympathies = 'sympathies',
   sympathyCounts = 'sympathyCounts',
   timeline = 'timeline',
   users = 'user',
@@ -33,6 +34,10 @@ export namespace GetPathParams {
     path: PathTypes.ocean;
     feeling: FeelingFilterTypes;
   };
+
+  export interface Sympathies {
+    path: PathTypes.sympathies;
+  }
 
   export interface SympathyCounts {
     path: PathTypes.sympathyCounts;
@@ -69,6 +74,7 @@ export type GetPathParams =
   GetWavePathParams |
   GetPathParams.Followers |
   GetPathParams.Followings |
+  GetPathParams.Sympathies |
   GetPathParams.SympathyCounts |
   GetPathParams.Users |
   GetPathParams.WaveCounts;
@@ -89,6 +95,11 @@ export function getPath(params: GetPathParams): string {
       const { feeling, path } = params;
 
       return `${path}/${feeling}`;
+    }
+    case PathTypes.sympathies: {
+      const { path } = params;
+
+      return path;
     }
     case PathTypes.sympathyCounts: {
       const { path } = params;
