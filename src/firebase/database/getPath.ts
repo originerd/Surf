@@ -37,10 +37,13 @@ export namespace GetPathParams {
 
   export interface Sympathies {
     path: PathTypes.sympathies;
+    waveID: string;
+    uid: string;
   }
 
   export interface SympathyCounts {
     path: PathTypes.sympathyCounts;
+    waveID: string;
   }
 
   export interface Timeline {
@@ -82,12 +85,12 @@ export type GetPathParams =
 export function getPath(params: GetPathParams): string {
   switch (params.path) {
     case PathTypes.followers: {
-      const { uid, path } = params;
+      const { path, uid } = params;
 
       return `${path}/${uid}`;
     }
     case PathTypes.followings: {
-      const { uid, path } = params;
+      const { path, uid } = params;
 
       return `${path}/${uid}`;
     }
@@ -97,22 +100,22 @@ export function getPath(params: GetPathParams): string {
       return `${path}/${feeling}`;
     }
     case PathTypes.sympathies: {
-      const { path } = params;
+      const { path, uid, waveID } = params;
 
-      return path;
+      return `${path}/${waveID}/${uid}`;
     }
     case PathTypes.sympathyCounts: {
-      const { path } = params;
+      const { path, waveID } = params;
 
-      return path;
+      return `${path}/${waveID}`;
     }
     case PathTypes.timeline: {
-      const { uid, path } = params;
+      const { path, uid } = params;
 
       return `${path}/${uid}`;
     }
     case PathTypes.users: {
-      const { uid, path } = params;
+      const { path, uid } = params;
 
       return `${path}/${uid}`;
     }
@@ -122,7 +125,7 @@ export function getPath(params: GetPathParams): string {
       return `${path}/${feeling}`;
     }
     case PathTypes.waves: {
-      const { feeling, uid, path } = params;
+      const { feeling, path, uid } = params;
 
       return `${path}/${uid}/${feeling}`;
     }

@@ -20,7 +20,7 @@ export const updateWave = (uid: string, followerUIDs: string[], wave: Types.Wave
   const updates = {
     [`${getPath({ path: PathTypes.ocean, feeling })}/${waveID}`]: data,
     [`${getPath({ path: PathTypes.ocean, feeling: 'total' })}/${waveID}`]: data,
-    [`${getPath({ path: PathTypes.sympathyCounts })}/${waveID}`]: 0,
+    [`${getPath({ path: PathTypes.sympathyCounts, waveID })}`]: 0,
     [`${getPath({ path: PathTypes.timeline, uid })}/${waveID}`]: data,
     [`${getPath({ path: PathTypes.waves, uid, feeling })}/${waveID}`]: data,
     [`${getPath({ path: PathTypes.waves, uid, feeling: 'total' })}/${waveID}`]: data,
