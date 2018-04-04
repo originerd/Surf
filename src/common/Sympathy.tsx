@@ -124,14 +124,14 @@ class Sympathy extends React.Component<SympathyProps> {
   public render() {
     const { sympathized, sympathyCount } = this;
 
-    if (sympathized === undefined || sympathyCount === undefined) {
+    if (sympathized === undefined || sympathyCount === undefined || sympathyCount === 0) {
       return null;
     }
 
     return (
       <View style={styles.container}>
         <Text style={styles.sympathyCount}>
-          공감 {sympathyCount}명
+          공감 {sympathyCount.toLocaleString('en-US')}명
         </Text>
       </View>
     );
