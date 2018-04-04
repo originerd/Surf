@@ -6,7 +6,7 @@ import { getPath, PathTypes } from './getPath';
 export const updateWave = (uid: string, followerUIDs: string[], wave: Types.WaveSpecification) => {
   const now = Date.now();
 
-  const waveID = firebase.database().ref().child('waves').push().key as string;
+  const waveID = firebase.database().ref().child(getPath({ path: PathTypes.ocean, feeling: 'total' })).push().key as string;
 
   const data: Types.Wave = {
     ...wave,
