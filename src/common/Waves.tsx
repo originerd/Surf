@@ -70,7 +70,6 @@ class Waves extends React.Component<WavesProps> {
 
     return (
       <FlatList
-        contentContainerStyle={{ display: 'flex' }}
         data={waves}
         keyExtractor={this.keyExtractor}
         ListFooterComponent={this.renderFooter}
