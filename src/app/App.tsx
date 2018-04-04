@@ -23,22 +23,21 @@ class App extends React.Component {
   }
 
   private handleAuthStateChanged = async (user: RNFirebase.User) => {
-    if (!user) {
+    if (user) {
+      firebase.database.subscribeFollowers(user.uid, this.replaceFollowerUIDs);
+      firebase.database.subscribeFollowings(user.uid, this.replaceFollowingUIDs);
+      firebase.database.subscribeUser(user.uid, this.setUser);
+    } else {
       const sessionUser = stores.sessionStore.user;
 
       if (sessionUser) {
         firebase.database.unsubscribeFollowers(sessionUser.uid, this.replaceFollowerUIDs);
         firebase.database.unsubscribeFollowings(sessionUser.uid, this.replaceFollowingUIDs);
         firebase.database.unsubscribeUser(sessionUser.uid, this.setUser);
-        stores.sessionStore.setUser(undefined);
       }
 
-      return;
+      stores.sessionStore.setUser(undefined);
     }
-
-    firebase.database.subscribeFollowers(user.uid, this.replaceFollowerUIDs);
-    firebase.database.subscribeFollowings(user.uid, this.replaceFollowingUIDs);
-    firebase.database.subscribeUser(user.uid, this.setUser);
   }
 
   private setUser = (snapshot: RNFirebase.database.DataSnapshot) => {
