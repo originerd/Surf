@@ -94,16 +94,16 @@ type HomeNavigationProps =
   HomeNavigationOwnProps;
 
 class HomeNavigation extends React.Component<HomeNavigationProps> {
-  public componentWillMount() {
-    const { navigation, navigationStore } = this.props;
-
-    navigationStore.setMainNavigation(navigation);
-  }
-
-  public navigateToWrite = () => {
+  private navigateToWrite = () => {
     const { mainNavigation } = this.props.navigationStore;
 
     mainNavigation.navigate('Write');
+  }
+
+  public componentDidMount() {
+    const { navigation, navigationStore } = this.props;
+
+    navigationStore.setMainNavigation(navigation);
   }
 
   public render() {
