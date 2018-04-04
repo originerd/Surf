@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Button,
+  Platform,
   StyleSheet,
   Text,
   View,
@@ -78,7 +79,7 @@ class Session extends React.Component {
         <View>
           <View style={styles.loginButtonContainer}>
             <Button
-              color="white"
+              color={Platform.select({ android: colors.blue, ios: 'white' })}
               onPress={this.signInWithFacebook}
               title="페이스북으로 시작하기"
             />
