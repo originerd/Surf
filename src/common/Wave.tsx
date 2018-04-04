@@ -9,6 +9,7 @@ import firebase from '../firebase';
 import NavigationStore from '../navigation/NavigationStore';
 import { colors, feelingColors, typography } from '../styles';
 import UserStore from '../user/UserStore';
+import FeelingButton from './FeelingButton';
 import Sympathy from './Sympathy';
 
 const styles = StyleSheet.create({
@@ -152,11 +153,7 @@ class Wave extends React.Component<WaveProps> {
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           {this.renderProfile()}
-          <View style={[styles.feelingContainer, { backgroundColor: feelingColors[wave.feeling] }]}>
-            <Text style={styles.feeling}>
-              {Types.Feelings[wave.feeling]}
-            </Text>
-          </View>
+          <FeelingButton wave={wave} />
         </View>
         <Text style={styles.content}>
           {wave.content}
