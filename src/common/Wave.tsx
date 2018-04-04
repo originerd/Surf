@@ -5,10 +5,11 @@ import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-n
 import { NavigationScreenProp } from 'react-navigation';
 
 import { Types, Stores } from '../common';
-import firebase from "../firebase";
-import NavigationStore from "../navigation/NavigationStore";
+import firebase from '../firebase';
+import NavigationStore from '../navigation/NavigationStore';
 import { colors, feelingColors, typography } from '../styles';
-import UserStore from "../user/UserStore";
+import UserStore from '../user/UserStore';
+import Sympathy from './Sympathy';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,6 +32,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 4,
     width: 50,
+  },
+  footerContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 8,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -59,7 +66,6 @@ const styles = StyleSheet.create({
   publishedDate: {
     color: 'lightgray',
     fontSize: typography.fontSizeSmall,
-    marginTop: 8,
   },
 });
 
@@ -155,9 +161,12 @@ class Wave extends React.Component<WaveProps> {
         <Text style={styles.content}>
           {wave.content}
         </Text>
-        <Text style={styles.publishedDate}>
-          {this.publishedDate}
-        </Text>
+        <View style={styles.footerContainer}>
+          <Text style={styles.publishedDate}>
+            {this.publishedDate}
+          </Text>
+          <Sympathy waveID={wave.waveID} />
+        </View>
       </View>
     );
   }
