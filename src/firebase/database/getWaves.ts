@@ -13,5 +13,7 @@ export const getWaves = async (pathParams: GetWavePathParams, endAt?: string, li
 
   const data = (await wavesRef.limitToLast(limit).once('value')).val() || {};
 
-  return Object.keys(data).map((key) => data[key]);
+  // need to sort keys to make sure data is ordered by key
+  // there was a bug on iOS
+  return Object.keys(data).sort().reverse().map((key) => data[key]);
 };

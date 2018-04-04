@@ -37,10 +37,10 @@ class Ocean extends React.Component<OceanProps> {
       return;
     }
 
+    setLoadingWaves(true);
+
     const lastWave = waves.length > 0 && waves[waves.length - 1];
     const endAt = isMore && lastWave && lastWave.waveID || undefined;
-
-    setLoadingWaves(true);
 
     const loadedWaves = await firebase.database.getWaves(
       { path: firebase.database.PathTypes.ocean, feeling: 'total' },
