@@ -3,6 +3,7 @@ import * as React from 'react';
 import { StyleSheet, Text, TextStyle, TouchableHighlight, ViewStyle } from 'react-native';
 
 import { Stores, Types } from '../common';
+import firebase from '../firebase';
 import { feelingColors, typography } from '../styles';
 import SympathyStore from '../sympathy/SympathyStore';
 
@@ -10,6 +11,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     borderRadius: 1,
+    borderWidth: 1,
     justifyContent: 'center',
     paddingVertical: 4,
     width: 50,
@@ -38,12 +40,12 @@ class FeelingButton extends React.Component<FeelingButtonProps> {
     let style: ViewStyle;
 
     if (this.sympathized) {
-      style = { backgroundColor: feelingColors[feeling] };
-    } else {
       style = {
+        backgroundColor: feelingColors[feeling],
         borderColor: feelingColors[feeling],
-        borderWidth: 1,
       };
+    } else {
+      style = { borderColor: feelingColors[feeling] };
     }
 
     return [styles.container, style];
@@ -69,13 +71,33 @@ class FeelingButton extends React.Component<FeelingButtonProps> {
     return sympathyStore.sympathizedByWaveID.get(wave.waveID) || uid === wave.uid;
   }
 
+  private toggleSympathize = () => {
+    const { sympathyStore, uid } = this.props;
+    const { waveID } = this.props.wave;
+
+    if (sympathyStore.sympathizedByWaveID.get(waveID) === undefined) {
+      return;
+    } 
+
+    if (this.sympathized) {
+      firebase.database.unsympathize(waveID, uid);
+    } else {
+      firebase.database.sympathize(waveID, uid);
+    }
+  }
+
   public render() {
-    const { feeling } = this.props.wave;
+    const { uid, wave } = this.props;
 
     return (
-      <TouchableHighlight style={this.containerStyle}>
+      <TouchableHighlight
+        disabled={uid === wave.uid}
+        onPress={this.toggleSympathize}
+        style={this.containerStyle}
+        underlayColor="transparent"
+      >
         <Text style={this.feelingStyle}>
-          {Types.Feelings[feeling]}
+          {Types.Feelings[wave.feeling]}
         </Text>
       </TouchableHighlight>
     );
