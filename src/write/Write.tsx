@@ -102,6 +102,8 @@ class Write extends React.Component<WriteProps> {
   public render() {
     const { sessionStore, writeStore } = this.props;
 
+    const disabled = !writeStore.feeling || writeStore.writing;
+
     return (
       <View style={styles.container}>
         <View style={styles.profileContainer}>
@@ -121,7 +123,7 @@ class Write extends React.Component<WriteProps> {
         />
         <Button
           color="black"
-          disabled={!writeStore.feeling}
+          disabled={disabled}
           onPress={this.write}
           title="파도만들기"
         />
