@@ -37,16 +37,16 @@ class Timeline extends React.Component<TimelineProps> {
       return;
     }
 
+    setLoadingWaves(true);
+
     const lastWave = waves.length > 0 && waves[waves.length - 1];
     const endAt = isMore && lastWave && lastWave.waveID || undefined;
 
-    setLoadingWaves(true);
-
     const loadedWaves = await firebase.database.getWaves(
-      { path: firebase.database.PathTypes.timeline, uid },
+      { uid, path: firebase.database.PathTypes.timeline },
       endAt,
     );
-    appendWaves(loadedWaves)
+    appendWaves(loadedWaves);
 
     if (loadedWaves.length === 0) {
       setLoadedAllWaves();
@@ -67,7 +67,7 @@ class Timeline extends React.Component<TimelineProps> {
     const startAt = firstWave && firstWave.waveID || undefined;
 
     firebase.database.subscribeWaves(
-      { path: firebase.database.PathTypes.timeline, uid },
+      { uid, path: firebase.database.PathTypes.timeline },
       startAt,
       this.subscribeTimelineHandler,
     );

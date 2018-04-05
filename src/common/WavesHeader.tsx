@@ -1,11 +1,18 @@
 import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
-import { Image, StyleSheet, Text, View, TouchableHighlight, TouchableWithoutFeedback } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 
 import { Stores, Types } from '../common';
 import firebase from '../firebase';
 import { feelingColors, typography } from '../styles';
-import UserStore from "../user/UserStore";
+import UserStore from '../user/UserStore';
 
 const styles = StyleSheet.create({
   container: {
@@ -185,7 +192,7 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
   }
 }
 
-export default inject<Stores, WavesHeaderProps, WavesHeaderInjectProps>((stores) => ({
+export default inject<Stores, WavesHeaderProps, WavesHeaderInjectProps>(stores => ({
   followingUIDs: stores.sessionStore.followingUIDs,
   sessionUserUID: stores.sessionStore.user!.uid,
   userStore: stores.userStore,

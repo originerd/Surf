@@ -122,23 +122,21 @@ class Sympathy extends React.Component<SympathyProps> {
   }
 
   public render() {
-    const { sympathized, sympathyCount } = this;
-
-    if (sympathized === undefined || sympathyCount === undefined || sympathyCount === 0) {
+    if (this.sympathized === undefined || !this.sympathyCount) {
       return null;
     }
 
     return (
       <View style={styles.container}>
         <Text style={styles.sympathyCount}>
-          공감 {sympathyCount.toLocaleString('en-US')}명
+          공감 {this.sympathyCount.toLocaleString('en-US')}명
         </Text>
       </View>
     );
   }
 }
 
-export default inject<Stores, SympathyProps, SympathyInjectProps>((stores) => ({
+export default inject<Stores, SympathyProps, SympathyInjectProps>(stores => ({
   sympathyStore: stores.sympathyStore,
   uid: stores.sessionStore.user!.uid,
 }))(observer(Sympathy));

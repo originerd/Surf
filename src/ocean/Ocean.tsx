@@ -46,7 +46,7 @@ class Ocean extends React.Component<OceanProps> {
       { path: firebase.database.PathTypes.ocean, feeling: 'total' },
       endAt,
     );
-    appendWaves(loadedWaves)
+    appendWaves(loadedWaves);
 
     if (loadedWaves.length === 0) {
       setLoadedAllWaves();

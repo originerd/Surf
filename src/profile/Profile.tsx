@@ -33,66 +33,63 @@ type ProfileProps =
 
 class Profile extends React.Component<ProfileProps> {
   private getWaves = async (isMore?: boolean) => {
-    const { uid, waves } = this;
     const { profileStore } = this.props;
 
-    if (profileStore.loadedAllWavesByUID.get(uid) || profileStore.loadingWavesByUID.get(uid)) {
+    const loadedAllWaves = profileStore.loadedAllWavesByUID.get(this.uid);
+    const loadingWaves = profileStore.loadingWavesByUID.get(this.uid);
+
+    if (loadedAllWaves || loadingWaves) {
       return;
     }
 
-    const lastWave = waves.length > 0 && waves[waves.length - 1];
+    profileStore.setLoadingWaves(this.uid, true);
+
+    const lastWave = this.waves.length > 0 && this.waves[this.waves.length - 1];
     const endAt = isMore && lastWave && lastWave.waveID || undefined;
 
-    profileStore.setLoadingWaves(uid, true);
-
     const loadedWaves = await firebase.database.getWaves(
-      { path: firebase.database.PathTypes.waves, uid, feeling: 'total' },
+      { path: firebase.database.PathTypes.waves, uid: this.uid, feeling: 'total' },
       endAt,
     );
-    profileStore.appendWaves(uid, loadedWaves);
+    profileStore.appendWaves(this.uid, loadedWaves);
 
     if (loadedWaves.length === 0) {
-      profileStore.setLoadedAllWaves(uid);
+      profileStore.setLoadedAllWaves(this.uid);
     }
 
-    profileStore.setLoadingWaves(uid, false);
+    profileStore.setLoadingWaves(this.uid, false);
   }
 
   private subscribeUser = () => {
-    const { uid } = this;
     const { userStore } = this.props;
 
-    if (!userStore.referenceCountsByUId.get(uid)) {
+    if (!userStore.referenceCountsByUId.get(this.uid)) {
       firebase.database.subscribeUser(
-        uid,
+        this.uid,
         this.subscribeUserHandler,
       );
     }
 
-    userStore.increaseReferenceCount(uid);
+    userStore.increaseReferenceCount(this.uid);
   }
 
   private subscribeWaves = async () => {
-    const { uid } = this;
     const { profileStore } = this.props;
 
     if (!profileStore.referenceCountsByUID.get(this.uid)) {
       await this.getWaves();
 
-      // should get waves after getTimeline function call has been finished
-      const { waves } = this;
-
-      const firstWave = waves.length > 0 && waves[0];
+      const firstWave = this.waves.length > 0 && this.waves[0];
       const startAt = firstWave && firstWave.waveID || undefined;
 
       firebase.database.subscribeWaves(
-        { path: firebase.database.PathTypes.waves, uid, feeling: 'total' },
+        { path: firebase.database.PathTypes.waves, uid: this.uid, feeling: 'total' },
         startAt,
         this.subscribeWavesHandler,
       );
     }
 
-    profileStore.increaseReferenceCount(uid);
+    profileStore.increaseReferenceCount(this.uid);
   }
 
   private subscribeUserHandler = (snapshot: RNFirebase.database.DataSnapshot) => {
@@ -117,34 +114,32 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   private unsubscribeUser = () => {
-    const { uid } = this;
     const { navigation, userStore } = this.props;
     const { params } = navigation.state;
 
-    userStore.decreseReferenceCount(uid);
+    userStore.decreseReferenceCount(this.uid);
 
-    if (!userStore.referenceCountsByUId.get(uid)) {
+    if (!userStore.referenceCountsByUId.get(this.uid)) {
       firebase.database.unsubscribeUser(
-        uid,
+        this.uid,
         this.subscribeUserHandler,
       );
     }
   }
 
   private unsubscribeWaves = () => {
-    const { uid } = this;
     const { navigation, profileStore } = this.props;
     const { params } = navigation.state;
 
-    profileStore.decreseReferenceCount(uid);
+    profileStore.decreseReferenceCount(this.uid);
 
-    if (!profileStore.referenceCountsByUID.get(uid)) {
+    if (!profileStore.referenceCountsByUID.get(this.uid)) {
       firebase.database.unsubscribeWaves(
-        { path: firebase.database.PathTypes.waves, uid, feeling: 'total' },
+        { path: firebase.database.PathTypes.waves, uid: this.uid, feeling: 'total' },
         this.subscribeWavesHandler,
       );
 
-      profileStore.deleteWaves(uid);
+      profileStore.deleteWaves(this.uid);
     }
   }
 
@@ -165,11 +160,10 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   public render() {
-    const { uid } = this;
     const { navigation, profileStore } = this.props;
 
-    const waves = profileStore.wavesByUID.get(uid) || [];
-    const loadingWaves = profileStore.loadingWavesByUID.get(uid);
+    const waves = profileStore.wavesByUID.get(this.uid) || [];
+    const loadingWaves = profileStore.loadingWavesByUID.get(this.uid);
 
     if (waves.length === 0 && loadingWaves) {
       return <Loading />;
@@ -180,7 +174,7 @@ class Profile extends React.Component<ProfileProps> {
         <Waves
           getMoreWaves={() => this.getWaves(true)}
           loadingWaves={loadingWaves}
-          uid={uid}
+          uid={this.uid}
           waves={waves}
         />
       </View>

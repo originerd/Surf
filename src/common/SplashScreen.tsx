@@ -3,11 +3,11 @@ import {
   ActivityIndicator,
   Image,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 
 import { colors, typography } from '../styles';
-import { Text } from "react-native";
 
 const styles = StyleSheet.create({
   container: {

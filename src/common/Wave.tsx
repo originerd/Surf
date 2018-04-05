@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 
-import { Types, Stores } from '../common';
+import { Stores, Types } from '../common';
 import firebase from '../firebase';
 import NavigationStore from '../navigation/NavigationStore';
 import { colors, feelingColors, typography } from '../styles';
@@ -169,7 +169,7 @@ class Wave extends React.Component<WaveProps> {
   }
 }
 
-export default inject<Stores, WaveProps, WaveInjectProps>((stores) => ({
+export default inject<Stores, WaveProps, WaveInjectProps>(stores => ({
   navigationStore: stores.navigationStore,
   userStore: stores.userStore,
 }))(observer(Wave));

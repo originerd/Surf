@@ -32,7 +32,7 @@ interface WavesProps {
 
 @observer
 class Waves extends React.Component<WavesProps> {
-  private keyExtractor = (wave: Types.Wave) => wave.waveID
+  private keyExtractor = (wave: Types.Wave) => wave.waveID;
 
   private renderFooter = () => {
     const { loadingWaves, uid } = this.props;
@@ -54,7 +54,7 @@ class Waves extends React.Component<WavesProps> {
     return <WavesHeader uid={uid} />;
   }
 
-  private renderWave = ({ item }: ListRenderItemInfo<Types.Wave>) => <Wave wave={item} />
+  private renderWave = ({ item }: ListRenderItemInfo<Types.Wave>) => <Wave wave={item} />;
 
   public render() {
     const { getMoreWaves, loadingWaves, waves } = this.props;
