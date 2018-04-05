@@ -1,4 +1,4 @@
-import { FeelingTypes } from "../common/types/feeling";
+import { FeelingTypes } from '../common/types/feeling';
 
 const colors = {
   lighterBlue: '#3E89DD',
@@ -7,7 +7,7 @@ const colors = {
   darkBlue: '#044996',
   darkerBlue: '#033874',
   lightOrange: '#FF7D38',
-  orange: "#FF5900",
+  orange: '#FF5900',
   darkOrange: '#E65000',
   darkerOrange: '#B23E00',
   lightYellow: '#FFD238',
@@ -19,7 +19,7 @@ const colors = {
   google: '#d34836',
   facebook: '#3b5998',
   twitter: '#00aced',
-}
+};
 
 const feelingColors: { [name in FeelingTypes]: string } = {
   /* feeling colors */

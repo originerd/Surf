@@ -19,11 +19,11 @@ const styles = StyleSheet.create({
 const FeelingButtons = () => (
   <View style={styles.container}>
     {
-      Types.FeelingTypes.map((feeling) =>
-        <FeelingButton feeling={feeling} key={feeling} />
+      Types.FeelingTypes.map(feeling =>
+        <FeelingButton feeling={feeling} key={feeling} />,
       )
     }
   </View>
-)
+);
 
 export default FeelingButtons;

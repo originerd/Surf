@@ -19,7 +19,7 @@ const writeStore = new WriteStore();
 interface Stores {
   navigationStore: NavigationStore;
   oceanStore: OceanStore;
-  profileStore: ProfileStore
+  profileStore: ProfileStore;
   sessionStore: SessionStore;
   sympathyStore: SympathyStore;
   timelineStore: TimelineStore;

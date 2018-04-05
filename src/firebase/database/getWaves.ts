@@ -4,7 +4,11 @@ import { Types } from '../../common';
 import { getEndAtKey } from './keys';
 import { getPath, GetWavePathParams } from './getPath';
 
-export const getWaves = async (pathParams: GetWavePathParams, endAt?: string, limit: number = 20): Promise<Types.Wave[]> => {
+export const getWaves = async (
+  pathParams: GetWavePathParams,
+  endAt?: string,
+  limit: number = 20,
+): Promise<Types.Wave[]> => {
   let wavesRef = firebase.database().ref(getPath(pathParams)).orderByKey();
 
   if (endAt) {
@@ -15,5 +19,5 @@ export const getWaves = async (pathParams: GetWavePathParams, endAt?: string, li
 
   // need to sort keys to make sure data is ordered by key
   // there was a bug on iOS
-  return Object.keys(data).sort().reverse().map((key) => data[key]);
+  return Object.keys(data).sort().reverse().map(key => data[key]);
 };

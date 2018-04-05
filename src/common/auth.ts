@@ -4,8 +4,8 @@ import { Permissions } from 'react-native-fbsdk';
 import * as Types from './types';
 
 export namespace Facebook {
-  const API_URL = "https://graph.facebook.com/v2.12/me";
-  const PROFILE_FIELDS = Types.FBProfileFields.join(",");
+  const API_URL = 'https://graph.facebook.com/v2.12/me';
+  const PROFILE_FIELDS = Types.FBProfileFields.join(',');
 
   export const login = (permissions: Permissions[] = ['email']): Promise<FBLoginResponse> =>
     new Promise((resolve, reject) => {
@@ -52,5 +52,5 @@ export namespace Facebook {
     }
 
     return profile;
-  }
+  };
 }

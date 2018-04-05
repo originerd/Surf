@@ -4,7 +4,8 @@ import { Types } from '../../common';
 import { getPath, PathTypes } from './getPath';
 
 export const sympathize = async (waveID: string, uid: string) => {
-  const sympathized = !!(await firebase.database().ref(getPath({ path: PathTypes.sympathies, uid, waveID })).once('value')).val();
+  const sympathizedPath = `${getPath({ waveID, path: PathTypes.sympathies })}/${uid}`;
+  const sympathized = !!(await firebase.database().ref(sympathizedPath).once('value')).val();
 
   if (sympathized) {
     return;
@@ -13,10 +14,13 @@ export const sympathize = async (waveID: string, uid: string) => {
   const now = Date.now();
 
   const updates = {
-    [getPath({ path: PathTypes.sympathies, uid, waveID })]: now,
+    [sympathizedPath]: now,
   };
 
   await firebase.database().ref().update(updates);
 
-  return firebase.database().ref(getPath({ path: PathTypes.sympathyCounts, waveID })).transaction((count = 0) => count + 1);
+  return firebase
+    .database()
+    .ref(getPath({ waveID, path: PathTypes.sympathyCounts }))
+    .transaction((count = 0) => count + 1);
 };

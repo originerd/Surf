@@ -104,7 +104,7 @@ class FeelingButton extends React.Component<FeelingButtonProps> {
   }
 }
 
-export default inject<Stores, FeelingButtonProps, FeelingButtonInjectProps>((stores) => ({
+export default inject<Stores, FeelingButtonProps, FeelingButtonInjectProps>(stores => ({
   sympathyStore: stores.sympathyStore,
   uid: stores.sessionStore.user!.uid,
 }))(observer(FeelingButton));

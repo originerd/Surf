@@ -4,4 +4,4 @@ export default {
   fontSizeMedium: 14,
   fontSizeLarge: 19,
   fontSizeExtraLarge: 25,
-}
+};

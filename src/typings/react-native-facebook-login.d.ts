@@ -62,7 +62,12 @@ declare module 'react-native-facebook-login' {
   }
 
   export namespace FBLoginManager {
-    function loginWithPermissions(permissions: Permissions[], callback: (error: Error, data: FBLoginOriginalResponse) => void): void;
-    function logout(callback: (error: Error, data: { credentials: { token: string } }) => void): void;
+    function loginWithPermissions(
+      permissions: Permissions[],
+      callback: (error: Error, data: FBLoginOriginalResponse) => void,
+    ): void;
+    function logout(
+      callback: (error: Error, data: { credentials: { token: string } }) => void,
+    ): void;
   }
 }

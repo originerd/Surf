@@ -1,4 +1,4 @@
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import {
   StyleSheet,
@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Stores, Types } from '../common';
 import { colors, feelingColors } from '../styles';
@@ -68,7 +68,7 @@ const FeelingButton = ({ feeling, selectedFeeling, setSelectedFeeling }: Feeling
   );
 };
 
-export default inject<Stores, FeelingButtonProps, FeelingButtonInjectProps>((stores) => ({
+export default inject<Stores, FeelingButtonProps, FeelingButtonInjectProps>(stores => ({
   selectedFeeling: stores.writeStore.feeling,
   setSelectedFeeling: stores.writeStore.setSelectedFeeling,
 }))(observer(FeelingButton));

@@ -5,9 +5,10 @@ import { getPath, PathTypes } from './getPath';
 
 export const updateUser = async (uid: string, user: Types.UserSpecification) => {
   const now = Date.now();
-  const path = getPath({ path: PathTypes.users, uid });
+  const path = getPath({ uid, path: PathTypes.users });
 
-  const storedUser: Types.User | {} = (await firebase.database().ref(path).once('value')).val() || {};
+  const storedUser: Types.User | {} =
+    (await firebase.database().ref(path).once('value')).val() || {};
 
   const updatedUser: Types.User = {
     // the order is important

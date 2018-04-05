@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 
 const renderColumns = () =>
   Types.FeelingTypes.map((feeling, index) =>
-    <View key={index} style={[styles.column, { backgroundColor: feelingColors[feeling] }]} />
+    <View key={index} style={[styles.column, { backgroundColor: feelingColors[feeling] }]} />,
   );
 
 const ColorsLine = () => (
