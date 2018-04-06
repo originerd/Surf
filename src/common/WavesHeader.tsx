@@ -4,10 +4,12 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
 } from 'react-native';
 
 import { Stores, Types } from '../common';
+import NavigationStore from '../navigation/NavigationStore';
 import { feelingColors, typography } from '../styles';
 import UserStore from '../user/UserStore';
 import FollowButton from './FollowButton';
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
 });
 
 interface WavesHeaderInjectProps {
+  navigationStore: NavigationStore;
   sessionUserUID: string;
   userStore: UserStore;
 }
@@ -93,6 +96,13 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
 
     return { backgroundColor: feelingColors[feeling] };
   }
+
+  private navigateToFollows = (type: Types.FollowTypes) =>
+    () => {
+      const { navigationStore, uid } = this.props;
+
+      navigationStore.mainNavigation.navigate('Follows', { type, uid });
+    }
 
   private get user() {
     const { uid, userStore } = this.props;
@@ -124,14 +134,26 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
             <Text style={styles.profileContentCount}>{waveCount}</Text>
             <Text style={styles.profileContentTitle}>파도</Text>
           </View>
-          <View style={styles.profileContentContainer}>
-            <Text style={styles.profileContentCount}>{followerCount}</Text>
-            <Text style={styles.profileContentTitle}>팔로워</Text>
-          </View>
-          <View style={styles.profileContentContainer}>
-            <Text style={styles.profileContentCount}>{followingCount}</Text>
-            <Text style={styles.profileContentTitle}>팔로잉</Text>
-          </View>
+          <TouchableHighlight
+            onPress={this.navigateToFollows(Types.FollowTypes.followers)}
+            style={styles.profileContentContainer}
+            underlayColor="transparent"
+          >
+            <View style={styles.profileContentContainer}>
+              <Text style={styles.profileContentCount}>{followerCount}</Text>
+              <Text style={styles.profileContentTitle}>팔로워</Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={this.navigateToFollows(Types.FollowTypes.followings)}
+            style={styles.profileContentContainer}
+            underlayColor="transparent"
+          >
+            <View style={styles.profileContentContainer}>
+              <Text style={styles.profileContentCount}>{followingCount}</Text>
+              <Text style={styles.profileContentTitle}>팔로잉</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -139,6 +161,8 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
 }
 
 export default inject<Stores, WavesHeaderProps, WavesHeaderInjectProps>(stores => ({
+  followingUIDs: stores.sessionStore.followingUIDs,
+  navigationStore: stores.navigationStore,
   sessionUserUID: stores.sessionStore.user!.uid,
   userStore: stores.userStore,
 }))(observer(WavesHeader));
