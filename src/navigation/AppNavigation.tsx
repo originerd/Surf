@@ -8,7 +8,7 @@ import MainNavigation from './MainNavigation';
 
 interface AppNavigationInjectProps {
   hasAuthChecked: boolean;
-  user?: Types.User;
+  user: Types.User | undefined;
 }
 
 type AppNavigationProps = AppNavigationInjectProps;

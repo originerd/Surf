@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
 interface WavesProps {
   getMoreWaves: () => void;
-  loadingWaves?: boolean;
+  loadingWaves: boolean | undefined;
   uid?: string;
   waves: Types.Wave[];
 }

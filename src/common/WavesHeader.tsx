@@ -72,7 +72,7 @@ interface WavesHeaderInjectProps {
 }
 
 interface WavesHeaderOwnProps {
-  uid?: string;
+  uid: string | undefined;
 }
 
 type WavesHeaderProps =
