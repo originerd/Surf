@@ -3,6 +3,8 @@ import * as React from 'react';
 import {
   Button,
   Image,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -12,7 +14,7 @@ import { NavigationScreenProp } from 'react-navigation';
 
 import { Stores, Types } from '../common';
 import firebase from '../firebase';
-import SessionStore from "../session/SessonStore";
+import SessionStore from '../session/SessonStore';
 import { colors, typography } from '../styles';
 import FeelingButtons from './FeelingButtons';
 import WriteStore from './WriteStore';
@@ -105,7 +107,11 @@ class Write extends React.Component<WriteProps> {
     const disabled = !writeStore.feeling || writeStore.writing;
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.select({ ios: 'padding' as 'padding' })}
+        keyboardVerticalOffset={64}
+        style={styles.container}
+      >
         <View style={styles.profileContainer}>
           <Image
             source={{ uri: this.user.profileImageURL }}
@@ -127,7 +133,7 @@ class Write extends React.Component<WriteProps> {
           onPress={this.write}
           title="파도만들기"
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
