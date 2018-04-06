@@ -4,15 +4,13 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
 import { Stores, Types } from '../common';
-import firebase from '../firebase';
 import { feelingColors, typography } from '../styles';
 import UserStore from '../user/UserStore';
+import FollowButton from './FollowButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,17 +22,6 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     padding: 12,
-  },
-  followButton: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, .7)',
-    borderRadius: 2,
-    height: 36,
-    justifyContent: 'center',
-    width: 64,
-  },
-  followButtonText: {
-    fontSize: typography.fontSizeMedium,
   },
   profileContainer: {
     flexDirection: 'row',
@@ -77,7 +64,6 @@ const styles = StyleSheet.create({
 });
 
 interface WavesHeaderInjectProps {
-  followingUIDs: string[];
   sessionUserUID: string;
   userStore: UserStore;
 }
@@ -108,46 +94,6 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
     return { backgroundColor: feelingColors[feeling] };
   }
 
-  private get hasUserBeenFollowed() {
-    const { followingUIDs, sessionUserUID, uid } = this.props;
-
-    return uid && followingUIDs.indexOf(uid) > -1;
-  }
-
-  private renderFollowButton = () => {
-    const { followingUIDs, sessionUserUID, uid } = this.props;
-
-    if (!uid || sessionUserUID === uid) {
-      return null;
-    }
-
-    return (
-      <TouchableHighlight
-        onPress={this.toggleFollow}
-        style={styles.followButton}
-        underlayColor="rgba(255, 255, 255, .5)"
-      >
-        <Text style={styles.followButtonText}>
-          {this.hasUserBeenFollowed ? '언팔로우' : '팔로우'}
-        </Text>
-      </TouchableHighlight>
-    );
-  }
-
-  private toggleFollow = () => {
-    const { sessionUserUID, uid } = this.props;
-
-    if (!uid) {
-      return;
-    }
-
-    if (this.hasUserBeenFollowed) {
-      firebase.database.unfollow(sessionUserUID, uid);
-    } else {
-      firebase.database.follow(sessionUserUID, uid);
-    }
-  }
-
   private get user() {
     const { uid, userStore } = this.props;
 
@@ -163,12 +109,12 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
       return null;
     }
 
-    const { followerCount, followingCount, name, profileImageURL, waveCount } = this.user;
+    const { followerCount, followingCount, name, profileImageURL, uid, waveCount } = this.user;
 
     return (
       <View style={styles.container}>
         <View style={[styles.feelingContainer, this.feelingBackgroundColor]}>
-          {this.renderFollowButton()}
+          <FollowButton uid={uid} />
         </View>
         <View style={styles.profileImageContainer}>
           <Image source={{ uri: profileImageURL }} style={styles.profileImage} />
@@ -193,7 +139,6 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
 }
 
 export default inject<Stores, WavesHeaderProps, WavesHeaderInjectProps>(stores => ({
-  followingUIDs: stores.sessionStore.followingUIDs,
   sessionUserUID: stores.sessionStore.user!.uid,
   userStore: stores.userStore,
 }))(observer(WavesHeader));
