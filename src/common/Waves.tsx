@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
 
 interface WavesProps {
   getMoreWaves: () => void;
+  isSessionUsers: boolean;
   loadingWaves: boolean | undefined;
   uid?: string;
   waves: Types.Wave[];
@@ -57,13 +58,13 @@ class Waves extends React.Component<WavesProps> {
   private renderWave = ({ item }: ListRenderItemInfo<Types.Wave>) => <Wave wave={item} />;
 
   public render() {
-    const { getMoreWaves, loadingWaves, waves } = this.props;
+    const { getMoreWaves, isSessionUsers, loadingWaves, waves } = this.props;
 
     if (waves.length === 0) {
       return (
         <View style={styles.container}>
           {this.renderHeader()}
-          <EmptyWaves />
+          <EmptyWaves isSessionUsers={isSessionUsers} />
         </View>
       );
     }

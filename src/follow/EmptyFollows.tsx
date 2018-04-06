@@ -10,12 +10,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  description: {
-    color: 'gray',
-    fontSize: typography.fontSizeMedium,
-    marginTop: 4,
-    textAlign: 'center',
-  },
   title: {
     fontSize: typography.fontSizeLarge,
     fontWeight: 'bold',
@@ -31,21 +25,10 @@ const getTitle = (type: Types.FollowTypes) => {
   return '팔로잉 중인 사람이 없어요.';
 };
 
-const getDescription = (type: Types.FollowTypes) => {
-  if (type === Types.FollowTypes.followers) {
-    return '먼저 팔로우 해보는 건 어떨까요?';
-  }
-
-  return '바다에서 다른 사람들을 만나보면 어때요?';
-};
-
 const EmptyWaves = ({ type }: { type: Types.FollowTypes }) => (
   <View style={styles.container}>
     <Text style={styles.title}>
       {getTitle(type)}
-    </Text>
-    <Text style={styles.description}>
-      {getDescription(type)}
     </Text>
   </View>
 );

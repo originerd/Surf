@@ -160,7 +160,7 @@ class Profile extends React.Component<ProfileProps> {
   }
 
   public render() {
-    const { navigation, profileStore } = this.props;
+    const { navigation, profileStore, sessionUserUID } = this.props;
 
     const waves = profileStore.wavesByUID.get(this.uid) || [];
     const loadingWaves = profileStore.loadingWavesByUID.get(this.uid);
@@ -173,6 +173,7 @@ class Profile extends React.Component<ProfileProps> {
       <View style={styles.container}>
         <Waves
           getMoreWaves={() => this.getWaves(true)}
+          isSessionUsers={sessionUserUID === this.uid}
           loadingWaves={loadingWaves}
           uid={this.uid}
           waves={waves}

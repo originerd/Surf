@@ -22,18 +22,30 @@ const styles = StyleSheet.create({
   },
 });
 
-const EmptyWaves = () => (
-  <View style={styles.container}>
-    <Text style={styles.title}>
-      앗, 아직 파도가 없네요!
-    </Text>
-    <Text style={styles.description}>
-      바다에서 다른 사람들의 파도를 보거나
-    </Text>
-    <Text style={styles.description}>
-      파도로 감정을 공유해주세요.
-    </Text>
-  </View>
-);
+const EmptyWaves = ({ isSessionUsers }: { isSessionUsers: boolean }) => {
+  let description;
+
+  if (isSessionUsers) {
+    description = (
+      <View>
+        <Text style={styles.description}>
+          바다에서 다른 사람들의 파도를 보거나
+        </Text>
+        <Text style={styles.description}>
+          파도로 감정을 공유해주세요.
+        </Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        앗, 아직 파도가 없네요!
+      </Text>
+      {description}
+    </View>
+  );
+};
 
 export default EmptyWaves;

@@ -95,6 +95,7 @@ class Timeline extends React.Component<TimelineProps> {
       <View style={styles.container}>
         <Waves
           getMoreWaves={() => this.getTimeline(true)}
+          isSessionUsers
           loadingWaves={loadingWaves}
           waves={waves}
         />

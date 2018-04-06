@@ -93,6 +93,7 @@ class Ocean extends React.Component<OceanProps> {
       <View style={styles.container}>
         <Waves
           getMoreWaves={() => this.getOcean(true)}
+          isSessionUsers
           loadingWaves={loadingWaves}
           waves={waves}
         />
