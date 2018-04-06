@@ -79,7 +79,7 @@ class Session extends React.Component {
         <View>
           <View style={styles.loginButtonContainer}>
             <Button
-              color={Platform.select({ android: colors.blue, ios: 'white' })}
+              color={Platform.select({ android: colors.facebook, ios: 'white' })}
               onPress={this.signInWithFacebook}
               title="페이스북으로 시작하기"
             />
