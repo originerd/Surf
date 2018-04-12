@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
-  Button,
   Platform,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { SocialIcon } from 'react-native-elements';
 
 import { auth, FeelingColorsLine, Types } from '../common';
 import firebase from '../firebase';
@@ -78,10 +78,11 @@ class Session extends React.Component {
         <FeelingColorsLine />
         <View>
           <View style={styles.loginButtonContainer}>
-            <Button
-              color={Platform.select({ android: colors.facebook, ios: 'white' })}
+            <SocialIcon
+              button
               onPress={this.signInWithFacebook}
               title="페이스북으로 시작하기"
+              type="facebook"
             />
           </View>
         </View>

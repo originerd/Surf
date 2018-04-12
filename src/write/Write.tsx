@@ -1,7 +1,6 @@
 import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
 import {
-  Button,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -10,6 +9,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { Button } from 'react-native-elements';
 import { NavigationScreenProp } from 'react-navigation';
 
 import { Stores, Types } from '../common';
@@ -128,7 +128,7 @@ class Write extends React.Component<WriteProps> {
           value={writeStore.content}
         />
         <Button
-          color="black"
+          backgroundColor={colors.lightBlue}
           disabled={disabled}
           onPress={this.write}
           title="파도만들기"
