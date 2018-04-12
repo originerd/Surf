@@ -1,6 +1,6 @@
 import { FBProfile } from 'react-native-facebook-login';
 
-import { FeelingTypes } from './feeling';
+import { FeelingFilterTypes } from './feeling';
 
 export interface UserSpecification {
   email: string;
@@ -11,11 +11,10 @@ export interface UserSpecification {
 
 export interface User extends UserSpecification {
   createdAt: number;
-  feelingCounts?: { [feeling in FeelingTypes]?: number };
+  feelingCounts: { [feeling in FeelingFilterTypes]?: number };
   followerCount: number;
   followingCount: number;
   updatedAt: number;
-  waveCount: number;
 }
 
 const sampleFBProfile: FBProfile = {

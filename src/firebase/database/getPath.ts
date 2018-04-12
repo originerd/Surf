@@ -1,4 +1,4 @@
-import { FeelingTypes } from '../../common/types/feeling';
+import * as Types from '../../common/types';
 
 export enum PathTypes {
   followers = 'followers',
@@ -11,8 +11,6 @@ export enum PathTypes {
   waveCounts = 'waveCounts',
   waves = 'waves',
 }
-
-export type FeelingFilterTypes = FeelingTypes | 'total';
 
 export namespace GetPathParams {
   export interface Followers {
@@ -27,12 +25,12 @@ export namespace GetPathParams {
 
   export interface Ocean {
     path: PathTypes.ocean;
-    feeling: FeelingFilterTypes;
+    feeling: Types.FeelingFilterTypes;
   }
 
   export interface Ocean {
     path: PathTypes.ocean;
-    feeling: FeelingFilterTypes;
+    feeling: Types.FeelingFilterTypes;
   }
 
   export interface Sympathies {
@@ -57,13 +55,13 @@ export namespace GetPathParams {
 
   export interface WaveCounts {
     path: PathTypes.waveCounts;
-    feeling: FeelingFilterTypes;
+    feeling: Types.FeelingFilterTypes;
   }
 
   export interface Waves {
     path: PathTypes.waves;
     uid: string;
-    feeling: FeelingFilterTypes;
+    feeling: Types.FeelingFilterTypes;
   }
 }
 

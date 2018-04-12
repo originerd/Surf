@@ -38,19 +38,13 @@ export const updateWave = (uid: string, followerUIDs: string[], wave: Types.Wave
   const updateWavePromise = firebase.database().ref().update(updates);
   const updateUserWaveCountsPromise = firebase
     .database()
-    .ref(getPath({ uid, path: PathTypes.users }))
-    .transaction((user: Types.User) => {
-      const { feelingCounts } = user;
+    .ref(`${getPath({ uid, path: PathTypes.users })}/feelingCounts`)
+    .transaction((feelingCounts: { [feelingType in Types.FeelingFilterTypes]?: number }) => ({
+      ...feelingCounts,
+      total: (feelingCounts.total || 0) + 1,
+      [feeling]: (feelingCounts && feelingCounts[feeling] || 0) + 1,
+    }));
 
-      return {
-        ...user,
-        feelingCounts: {
-          ...feelingCounts,
-          [feeling]: (feelingCounts && feelingCounts[feeling] || 0) + 1,
-        },
-        waveCount: user.waveCount + 1,
-      };
-    });
   const updateWaveCountsFeelingPromise = firebase
     .database()
     .ref(getPath({ feeling, path: PathTypes.waveCounts }))

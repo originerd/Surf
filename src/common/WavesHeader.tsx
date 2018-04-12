@@ -81,11 +81,11 @@ type WavesHeaderProps =
 
 class WavesHeader extends React.Component<WavesHeaderProps> {
   private get feelingBackgroundColor() {
-    if (!this.user || !this.user.feelingCounts) {
+    if (!this.user || this.user.feelingCounts.total === 0) {
       return { backgroundColor: 'gray' };
     }
 
-    const { feelingCounts } = this.user;
+    const { total, ...feelingCounts } = this.user.feelingCounts;
     const feelings = Object.keys(feelingCounts) as Types.FeelingTypes[];
 
     const feeling = feelings.reduce(
@@ -119,7 +119,7 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
       return null;
     }
 
-    const { followerCount, followingCount, name, profileImageURL, uid, waveCount } = this.user;
+    const { feelingCounts, followerCount, followingCount, name, profileImageURL, uid } = this.user;
 
     return (
       <View style={styles.container}>
@@ -131,7 +131,9 @@ class WavesHeader extends React.Component<WavesHeaderProps> {
         </View>
         <View style={styles.profileContainer}>
           <View style={styles.profileContentContainer}>
-            <Text style={styles.profileContentCount}>{waveCount}</Text>
+            <Text style={styles.profileContentCount}>
+              {feelingCounts.total}
+            </Text>
             <Text style={styles.profileContentTitle}>파도</Text>
           </View>
           <TouchableHighlight

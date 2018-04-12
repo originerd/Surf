@@ -16,3 +16,12 @@ export const Feelings: { [feelingType in FeelingTypes]: string } = {
 };
 
 export const FeelingTypes = Object.keys(Feelings) as FeelingTypes[];
+
+export type FeelingFilterTypes = FeelingTypes | 'total';
+
+export const FeelingFilters = {
+  ...Feelings,
+  total: '전체',
+};
+
+export const FeelingFilterTypes = Object.keys(FeelingFilters) as FeelingFilterTypes[];

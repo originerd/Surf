@@ -14,9 +14,11 @@ export const updateUser = async (uid: string, user: Types.UserSpecification) => 
     // the order is important
     ...user,
     createdAt: now,
+    feelingCounts: {
+      total: 0,
+    },
     followerCount: 0,
     followingCount: 0,
-    waveCount: 0,
     ...storedUser,
     updatedAt: now,
   };
