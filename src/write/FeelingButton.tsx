@@ -6,10 +6,11 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Stores, Types } from '../common';
 import { colors, feelingColors } from '../styles';
+import { getPlatformIconName } from '../common/getPlatformIconName';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,7 +57,11 @@ const FeelingButton = ({ feeling, selectedFeeling, setSelectedFeeling }: Feeling
     >
       <View style={styles.contentContainer}>
         <View style={styles.iconContainer}>
-          <Icon color={isSelectedFeeling ? colors.blue : 'whitesmoke'} name="check" size={16} />
+          <Icon
+            color={isSelectedFeeling ? colors.blue : 'whitesmoke'}
+            name={getPlatformIconName('checkmark')}
+            size={16}
+          />
         </View>
         <View style={styles.contentContainer}>
           <Text style={{ color }}>
