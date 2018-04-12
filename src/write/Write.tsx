@@ -63,9 +63,9 @@ type WriteProps = WriteInjectProps & WriteOwnProps;
 class Write extends React.Component<WriteProps> {
   private get buttonDisabled() {
     const { hasFollowerUIDsLoaded } = this.props.sessionStore;
-    const { feeling, writing } = this.props.writeStore;
+    const { content, feeling, writing } = this.props.writeStore;
 
-    return !hasFollowerUIDsLoaded || !feeling || writing;
+    return !hasFollowerUIDsLoaded || !content || content.length === 0 || !feeling || writing;
   }
 
   private get user() {
@@ -78,7 +78,7 @@ class Write extends React.Component<WriteProps> {
     const { followerUIDs } = sessionStore;
     const { content, feeling, setWriting, writing } = writeStore;
 
-    if (!feeling || writing) {
+    if (this.buttonDisabled || !content || !feeling) {
       return;
     }
 
@@ -104,8 +104,6 @@ class Write extends React.Component<WriteProps> {
   public render() {
     const { sessionStore, writeStore } = this.props;
 
-    const disabled = !writeStore.feeling || writeStore.writing;
-
     return (
       <KeyboardAvoidingView
         behavior={Platform.select({ ios: 'padding' as 'padding' })}
@@ -129,7 +127,7 @@ class Write extends React.Component<WriteProps> {
         />
         <Button
           backgroundColor={colors.lightBlue}
-          disabled={disabled}
+          disabled={this.buttonDisabled}
           onPress={this.write}
           title="파도만들기"
         />
