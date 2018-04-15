@@ -19,5 +19,6 @@ export * from './unsubscribeSympathyCount';
 export * from './unsubscribeUser';
 export * from './unsubscribeWaves';
 export * from './unsympathize';
+export * from './updateComment';
 export * from './updateUser';
 export * from './updateWave';

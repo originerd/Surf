@@ -1,6 +1,8 @@
 import * as Types from '../../common/types';
 
 export enum PathTypes {
+  commentCounts = 'commentCounts',
+  comments = 'comments',
   followers = 'followers',
   followings = 'followings',
   ocean = 'ocean',
@@ -13,6 +15,16 @@ export enum PathTypes {
 }
 
 export namespace GetPathParams {
+  export interface CommentCounts {
+    path: PathTypes.commentCounts;
+    waveID: string;
+  }
+
+  export interface Comments {
+    path: PathTypes.comments;
+    waveID: string;
+  }
+
   export interface Followers {
     path: PathTypes.followers;
     uid: string;
@@ -72,6 +84,8 @@ export type GetWavePathParams =
 
 export type GetPathParams =
   GetWavePathParams |
+  GetPathParams.CommentCounts |
+  GetPathParams.Comments |
   GetPathParams.Followers |
   GetPathParams.Followings |
   GetPathParams.Sympathies |
@@ -81,6 +95,16 @@ export type GetPathParams =
 
 export function getPath(params: GetPathParams): string {
   switch (params.path) {
+    case PathTypes.commentCounts: {
+      const { path, waveID } = params;
+
+      return `${path}/${waveID}`;
+    }
+    case PathTypes.comments: {
+      const { path, waveID } = params;
+
+      return `${path}/${waveID}`;
+    }
     case PathTypes.followers: {
       const { path, uid } = params;
 
