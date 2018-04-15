@@ -1,4 +1,5 @@
 export * from './follow';
+export * from './getComments';
 export * from './getPath';
 export * from './getFollowers';
 export * from './getFollowings';
