@@ -76,6 +76,7 @@ interface WaveInjectProps {
 }
 
 interface WaveOwnProps {
+  isInComments?: boolean;
   wave: Types.Wave;
 }
 
@@ -84,6 +85,16 @@ type WaveProps =
   WaveOwnProps;
 
 class Wave extends React.Component<WaveProps> {
+  private navigateToComments = () => {
+    const { isInComments, navigationStore, wave } = this.props;
+
+    if (isInComments) {
+      return;
+    }
+
+    navigationStore.mainNavigation.navigate('Comments', { wave });
+  }
+
   private navigateToProfile = () => {
     const { navigationStore, wave } = this.props;
     const { uid } = wave;
@@ -150,21 +161,23 @@ class Wave extends React.Component<WaveProps> {
     const { wave } = this.props;
 
     return (
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          {this.renderProfile()}
-          <FeelingButton wave={wave} />
-        </View>
-        <Text style={styles.content}>
-          {wave.content}
-        </Text>
-        <View style={styles.footerContainer}>
-          <Text style={styles.publishedDate}>
-            {this.publishedDate}
+      <TouchableWithoutFeedback onPress={this.navigateToComments}>
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            {this.renderProfile()}
+            <FeelingButton wave={wave} />
+          </View>
+          <Text style={styles.content}>
+            {wave.content}
           </Text>
-          <Sympathy waveID={wave.waveID} />
+          <View style={styles.footerContainer}>
+            <Text style={styles.publishedDate}>
+              {this.publishedDate}
+            </Text>
+            <Sympathy waveID={wave.waveID} />
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
