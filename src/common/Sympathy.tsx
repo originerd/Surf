@@ -105,9 +105,9 @@ class Sympathy extends React.Component<SympathyProps> {
     sympathyStore.decreseReferenceCountOfSympathyCount(waveID);
 
     if (!sympathyStore.referenceCountOfSympathyCountByWaveID.get(waveID)) {
-      firebase.database.unsubscribeSympathyCount(waveID, this.subscribeSympathizedHandler);
+      firebase.database.unsubscribeSympathyCount(waveID, this.subscribeSympathyCountHandler);
 
-      sympathyStore.deleteSympathized(waveID);
+      sympathyStore.deleteSympathyCount(waveID);
     }
   }
 
