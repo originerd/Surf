@@ -126,8 +126,10 @@ class Write extends React.Component<WriteProps> {
           multiline
           onChangeText={writeStore.setContent}
           placeholder="파도를 만들어주세요"
+          selectionColor={colors.lightBlue}
           style={styles.textInput}
           value={writeStore.content}
+          underlineColorAndroid={colors.lightBlue}
         />
         <Button
           backgroundColor={colors.lightBlue}

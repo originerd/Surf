@@ -131,7 +131,7 @@ class Comments extends React.Component<CommentsProps> {
 
     return (
       <View style={styles.footerContainer}>
-        <ActivityIndicator />
+        <ActivityIndicator color={colors.lightBlue} />
       </View>
     );
   }
@@ -160,8 +160,10 @@ class Comments extends React.Component<CommentsProps> {
         <TextInput
           onChangeText={setContent}
           placeholder="댓글을 남겨보세요."
+          selectionColor={colors.lightBlue}
           style={styles.input}
           value={content}
+          underlineColorAndroid={colors.lightBlue}
         />
         <Button
           backgroundColor={colors.lightBlue}

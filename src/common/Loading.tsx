@@ -5,6 +5,8 @@ import {
   View,
 } from 'react-native';
 
+import { colors } from '../styles';
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
 
 const Loading = () => (
   <View style={styles.container}>
-    <ActivityIndicator />
+    <ActivityIndicator color={colors.lightBlue} />
   </View>
 );
 

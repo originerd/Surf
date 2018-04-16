@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { Types } from '../common';
+import { colors } from '../styles';
 import EmptyWaves from './EmptyWaves';
 import Wave from './Wave';
 import WavesHeader from './WavesHeader';
@@ -44,7 +45,7 @@ class Waves extends React.Component<WavesProps> {
 
     return (
       <View style={styles.footerContainer}>
-        <ActivityIndicator />
+        <ActivityIndicator color={colors.lightBlue} />
       </View>
     );
   }
