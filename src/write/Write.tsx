@@ -20,6 +20,10 @@ import FeelingButtons from './FeelingButtons';
 import WriteStore from './WriteStore';
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    marginLeft: 0,
+    marginRight: 0,
+  },
   container: {
     backgroundColor: 'whitesmoke',
     display: 'flex',
@@ -127,6 +131,11 @@ class Write extends React.Component<WriteProps> {
         />
         <Button
           backgroundColor={colors.lightBlue}
+          borderRadius={2}
+          containerViewStyle={[
+            styles.buttonContainer,
+            Platform.select({ ios: { marginBottom: 16 } }),
+          ]}
           disabled={this.buttonDisabled}
           onPress={this.write}
           title="파도만들기"

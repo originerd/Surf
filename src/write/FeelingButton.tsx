@@ -15,7 +15,7 @@ import { getPlatformIconName } from '../common/getPlatformIconName';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    borderRadius: 4,
+    borderRadius: 2,
     flex: 1,
     marginHorizontal: 2,
     paddingVertical: 8,
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     height: 20,
     justifyContent: 'center',
+    marginBottom: 4,
     width: 20,
   },
 });
@@ -54,6 +55,7 @@ const FeelingButton = ({ feeling, selectedFeeling, setSelectedFeeling }: Feeling
     <TouchableHighlight
       onPress={() => setSelectedFeeling(feeling)}
       style={[styles.container, { backgroundColor }]}
+      underlayColor="transparent"
     >
       <View style={styles.contentContainer}>
         <View style={styles.iconContainer}>
