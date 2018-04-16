@@ -1,3 +1,4 @@
+import CommentStore from '../comment/CommentStore';
 import NavigationStore from '../navigation/NavigationStore';
 import OceanStore from '../ocean/OceanStore';
 import ProfileStore from '../profile/ProfileStore';
@@ -7,6 +8,7 @@ import TimelineStore from '../timeline/TimelineStore';
 import UserStore from '../user/UserStore';
 import WriteStore from '../write/WriteStore';
 
+const commentStore = new CommentStore();
 const navigationStore = new NavigationStore;
 const oceanStore = new OceanStore();
 const profileStore = new ProfileStore();
@@ -17,6 +19,7 @@ const userStore = new UserStore();
 const writeStore = new WriteStore();
 
 interface Stores {
+  commentStore: CommentStore;
   navigationStore: NavigationStore;
   oceanStore: OceanStore;
   profileStore: ProfileStore;
@@ -28,6 +31,7 @@ interface Stores {
 }
 
 const stores: Stores = {
+  commentStore,
   navigationStore,
   oceanStore,
   profileStore,
