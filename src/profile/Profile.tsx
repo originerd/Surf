@@ -1,12 +1,11 @@
 import { inject, observer } from 'mobx-react/native';
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { RNFirebase } from 'react-native-firebase';
-import { NavigationScreenProp } from 'react-navigation';
 
 import { Loading, Stores, Types, Waves } from '../common';
 import firebase from '../firebase';
-import SessionStore from '../session/SessonStore';
+import { ProfileNavigationOptionsParams } from '../navigation/MainNavigation';
 import UserStore from '../user/UserStore';
 import ProfileStore from './ProfileStore';
 
@@ -23,9 +22,7 @@ interface ProfileInjectProps {
   sessionUserUID: string;
 }
 
-interface ProfileOwnProps {
-  navigation: NavigationScreenProp<{ params?: { uid: string } }, {}>;
-}
+interface ProfileOwnProps extends ProfileNavigationOptionsParams {}
 
 type ProfileProps =
   ProfileInjectProps &
