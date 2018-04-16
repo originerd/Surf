@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   commentCount: {
     color: 'gray',
     fontSize: typography.fontSizeSmall,
+    marginLeft: 6,
   },
 });
 
@@ -33,7 +34,6 @@ interface CommentInjectProps {
 }
 
 interface CommentOwnProps {
-  commentID: string;
   waveID: string;
 }
 

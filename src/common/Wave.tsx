@@ -4,13 +4,15 @@ import * as React from 'react';
 import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 
-import { Stores, Types } from '../common';
 import firebase from '../firebase';
 import NavigationStore from '../navigation/NavigationStore';
 import { colors, feelingColors, typography } from '../styles';
 import UserStore from '../user/UserStore';
+import Comment from './Comment';
 import FeelingButton from './FeelingButton';
+import { Stores } from './stores';
 import Sympathy from './Sympathy';
+import * as Types from './types';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,6 +41,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 8,
+  },
+  footerRightContainer: {
+    flexDirection: 'row',
   },
   headerContainer: {
     flexDirection: 'row',
@@ -174,7 +179,10 @@ class Wave extends React.Component<WaveProps> {
             <Text style={styles.publishedDate}>
               {this.publishedDate}
             </Text>
-            <Sympathy waveID={wave.waveID} />
+            <View style={styles.footerRightContainer}>
+              <Sympathy waveID={wave.waveID} />
+              <Comment waveID={wave.waveID} />
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
