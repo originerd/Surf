@@ -16,21 +16,16 @@ const styles = StyleSheet.create({
     display: 'flex',
     marginTop: 6,
     padding: 12,
+    paddingLeft: 24,
   },
   content: {
     fontSize: typography.fontSizeMedium,
-  },
-  footerContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 8,
   },
   headerContainer: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   profileContainer: {
     alignItems: 'center',
@@ -41,15 +36,15 @@ const styles = StyleSheet.create({
   },
   profileImageContainer: {
     backgroundColor: 'lightgray',
-    borderRadius: 20,
-    height: 24,
+    borderRadius: 9,
+    height: 18,
     overflow: 'hidden',
-    width: 24,
+    width: 18,
   },
   profileName: {
     fontSize: typography.fontSizeMedium,
     fontWeight: 'bold',
-    marginLeft: 8,
+    marginLeft: 6,
   },
   publishedDate: {
     color: 'lightgray',
