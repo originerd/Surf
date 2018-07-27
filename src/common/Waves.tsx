@@ -22,10 +22,14 @@ const styles = StyleSheet.create({
   footerContainer: {
     padding: 12,
   },
+  onHome: {
+    paddingBottom: 80,
+  },
 });
 
 interface WavesProps {
   getMoreWaves: () => void;
+  isOnHome?: boolean;
   isSessionUsers: boolean;
   loadingWaves: boolean | undefined;
   uid?: string;
@@ -59,7 +63,7 @@ class Waves extends React.Component<WavesProps> {
   private renderWave = ({ item }: ListRenderItemInfo<Types.Wave>) => <Wave wave={item} />;
 
   public render() {
-    const { getMoreWaves, isSessionUsers, loadingWaves, waves } = this.props;
+    const { getMoreWaves, isOnHome, isSessionUsers, loadingWaves, waves } = this.props;
 
     if (waves.length === 0) {
       return (
@@ -72,6 +76,7 @@ class Waves extends React.Component<WavesProps> {
 
     return (
       <FlatList
+        contentContainerStyle={isOnHome ? styles.onHome : null}
         data={waves}
         keyExtractor={this.keyExtractor}
         ListFooterComponent={this.renderFooter}

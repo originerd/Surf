@@ -170,6 +170,7 @@ class Profile extends React.Component<ProfileProps> {
       <View style={styles.container}>
         <Waves
           getMoreWaves={() => this.getWaves(true)}
+          isOnHome
           isSessionUsers={sessionUserUID === this.uid}
           loadingWaves={loadingWaves}
           uid={this.uid}
