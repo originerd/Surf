@@ -20,8 +20,6 @@ import Timeline from '../timeline';
 import { colors } from '../styles';
 import NavigationStore from './NavigationStore';
 
-const IOS_TAB_HEIGHT = 48.5;
-
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
@@ -34,11 +32,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.lightBlue,
     borderRadius: 32,
-    bottom: Platform.select({ android: 0, ios: IOS_TAB_HEIGHT }) + 24,
+    bottom: 60,
     height: 56,
     justifyContent: 'center',
     position: 'absolute',
-    right: 16,
+    right: 12,
     shadowColor: colors.darkerBlue,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: .5,
@@ -78,6 +76,7 @@ const TabNavigation = TabNavigator(
       showIcon: true,
       style: styles.tabBar,
     },
+    tabBarPosition: 'bottom',
   },
 );
 
