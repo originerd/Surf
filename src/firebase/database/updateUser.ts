@@ -12,7 +12,6 @@ export const updateUser = async (uid: string, user: Types.UserSpecification) => 
 
   const updatedUser: Types.User = {
     // the order is important
-    ...user,
     createdAt: now,
     feelingCounts: {
       total: 0,
@@ -20,6 +19,7 @@ export const updateUser = async (uid: string, user: Types.UserSpecification) => 
     followerCount: 0,
     followingCount: 0,
     ...storedUser,
+    ...user,
     updatedAt: now,
   };
 

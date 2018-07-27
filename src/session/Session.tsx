@@ -49,7 +49,8 @@ class Session extends React.Component {
 
       const { uid } = currentUser;
       const { email, name } = response.profile;
-      const profileImageURL = response.profile.picture.data.url;
+      const profileImageURL =
+        `https://graph.facebook.com/${response.profile.id}/picture?type=large`;
 
       const user: Types.UserSpecification = {
         email,
