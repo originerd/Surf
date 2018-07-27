@@ -59,7 +59,7 @@ class Follow extends React.Component<FollowProps> {
       return { backgroundColor: 'gray' };
     }
 
-    const { feelingCounts } = this.user;
+    const { total, ...feelingCounts } = this.user.feelingCounts;
     const feelings = Object.keys(feelingCounts) as Types.FeelingTypes[];
 
     const feeling = feelings.reduce(
